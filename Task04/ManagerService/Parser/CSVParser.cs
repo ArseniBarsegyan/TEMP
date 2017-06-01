@@ -8,9 +8,8 @@ namespace ManagerService.Parser
 {
     public class CSVParser
     {
-        public CSVParser()
+        public CSVParser(string fileName)
         {
-            
         }
     }
 }
