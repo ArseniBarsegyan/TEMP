@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CsvFile.cs" />
+    <Compile Include="Models\FileContent.cs" />
     <Compile Include="Parser\CSVParser.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
@@ -64,9 +64,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\ManagerServiceConsole\ManagerServiceConsole.csproj">
-      <Project>{9DF6B95E-C97B-4A8C-BB26-2F52CE025F01}</Project>
-      <Name>ManagerServiceConsole</Name>
+    <ProjectReference Include="..\Task04.DAL\Task04.DAL.csproj">
+      <Project>{E5569CDF-2447-43FD-B64A-618DD6C60A40}</Project>
+      <Name>Task04.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

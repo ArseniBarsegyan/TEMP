@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.IO;
 using System.ServiceProcess;
 using System.Threading;
@@ -10,6 +9,7 @@ namespace ManagerService
     public partial class Service1 : ServiceBase
     {
         private Logger _logger;
+        
         public Service1()
         {
             InitializeComponent();
@@ -47,6 +47,7 @@ namespace ManagerService
         {
             var filePath = e.FullPath;
             RecordEntry(filePath);
+            //var task = new Task(ProceedFile);
         }
 
         public void Start()
