@@ -1,10 +1,8 @@
-﻿using CsvHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using ManagerService.Models;
 
 namespace ManagerServiceConsole
 {
@@ -13,27 +11,6 @@ namespace ManagerServiceConsole
         static void Main(string[] args)
         {
             Run();
-            GetCsvReadResult("D:\\ManagerServer\\Barsegyan_02062017.csv");
-        }
-
-        static FileContent GetCsvReadResult(string fileName)
-        {
-            if (!File.Exists(fileName)) return null;
-            using (var parser = new CsvParser(new StreamReader(fileName)))
-            {
-                var fileContent = new FileContent(fileName, new List<string>(), new Dictionary<string, decimal>());
-                while (true)
-                {
-                    var row = parser.Read();
-                    if (row == null)
-                        break;
-                    foreach (var element in row)
-                    {
-                        Console.WriteLine(element);
-                    }
-                }
-            }
-            return null;
         }
 
         static void Run()

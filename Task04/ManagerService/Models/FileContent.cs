@@ -8,15 +8,23 @@ namespace ManagerService.Models
         public FileContent(string fileName, ICollection<string> clients, IDictionary<string, decimal> products)
         {
             FileName = fileName;
+            GetManagerLastName();
+            SetTime();
         }
 
-        public DateTime Date { get; }
-        public string FileName { get; }
-        public ICollection<string> Clients { get; }
-        public IDictionary<string, decimal> Products { get; }
-        public string ManagerLastName { get; private set; }
+        public Guid FileId { get; private set; }
+        private DateTime Date { get; set; }
+        private string FileName { get; }
+        private ICollection<string> Clients { get; }
+        private IDictionary<string, decimal> Products { get; }
+        private string ManagerLastName { get; set; }
 
-        public void AddClients(string client)
+        public void GenerateGuid()
+        {
+            FileId = Guid.NewGuid();
+        }
+
+        public void AddClient(string client)
         {
             Clients.Add(client);
         }
@@ -29,6 +37,11 @@ namespace ManagerService.Models
         private void GetManagerLastName()
         {
             ManagerLastName = FileName.Substring(0, FileName.Length - FileName.IndexOf('_'));
+        }
+
+        private void SetTime()
+        {
+            Date = DateTime.Parse(FileName.Substring(FileName.Length - FileName.IndexOf('_') + 1));
         }
     }
 }

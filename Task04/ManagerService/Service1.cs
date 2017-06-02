@@ -1,8 +1,12 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using CsvHelper;
+using ManagerService.Models;
+using Task04.DAL.Context;
 
 namespace ManagerService
 {
@@ -47,7 +51,28 @@ namespace ManagerService
         {
             var filePath = e.FullPath;
             RecordEntry(filePath);
-            //var task = new Task(ProceedFile);
+        }
+
+        //Generate FileContent model from existing *.scv file
+        private FileContent GenerateFileContent(string fileName)
+        {
+            if (!File.Exists(fileName)) return null;
+            using (var parser = new CsvParser(new StreamReader(fileName)))
+            {
+                var fileContent = new FileContent(fileName, new List<string>(), new Dictionary<string, decimal>());
+                while (true)
+                {
+                    var row = parser.Read();
+                    if (row == null)
+                    {
+                        break;
+                    }
+
+                    fileContent.AddClient(row[0]);
+                    fileContent.AddProduct(row[1], decimal.Parse(row[2]));
+                }
+                return fileContent;
+            }
         }
 
         public void Start()
@@ -69,9 +94,9 @@ namespace ManagerService
         {
             lock (_obj)
             {
-                using (var writer = new StreamWriter(ConfigurationManager.AppSettings["ServerPath"], true))
+                using (var writer = new StreamWriter(ConfigurationManager.AppSettings["ServerPath"] + "log.txt", true))
                 {
-                    writer.WriteLine($"{0} was created");
+                    writer.WriteLine($"{filePath} was created");
                     writer.Flush();
                 }
             }
