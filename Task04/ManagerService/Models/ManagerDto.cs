@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Task04.DAL.Entities
+namespace ManagerService.Models
 {
-    public class Manager : Entity
+    public class ManagerDto
     {
         public string LastName { get; set; }
         public DateTime Date { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<ProductDto> Products { get; set; }
     }
 }

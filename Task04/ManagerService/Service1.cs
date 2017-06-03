@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.ServiceProcess;
@@ -6,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CsvHelper;
 using ManagerService.Models;
-using Task04.DAL.Context;
 
 namespace ManagerService
 {
@@ -26,6 +26,7 @@ namespace ManagerService
         {
             _logger = new Logger();
             var loggerTask = new Task(_logger.Start);
+            loggerTask.Start();
         }
 
         protected override void OnStop()
@@ -43,36 +44,10 @@ namespace ManagerService
 
         public Logger()
         {
-            _watcher = new FileSystemWatcher();
+            _watcher = new FileSystemWatcher(ConfigurationManager.AppSettings["ServerPath"]);
+
             _watcher.Created += WatcherOnCreated;
-        }
-
-        private void WatcherOnCreated(object sender, FileSystemEventArgs e)
-        {
-            var filePath = e.FullPath;
-            RecordEntry(filePath);
-        }
-
-        //Generate FileContent model from existing *.scv file
-        private FileContent GenerateFileContent(string fileName)
-        {
-            if (!File.Exists(fileName)) return null;
-            using (var parser = new CsvParser(new StreamReader(fileName)))
-            {
-                var fileContent = new FileContent(fileName, new List<string>(), new Dictionary<string, decimal>());
-                while (true)
-                {
-                    var row = parser.Read();
-                    if (row == null)
-                    {
-                        break;
-                    }
-
-                    fileContent.AddClient(row[0]);
-                    fileContent.AddProduct(row[1], decimal.Parse(row[2]));
-                }
-                return fileContent;
-            }
+            _watcher.Changed += WatcherOnChanged;
         }
 
         public void Start()
@@ -90,14 +65,78 @@ namespace ManagerService
             _enabled = false;
         }
 
-        private void RecordEntry(string filePath)
+        private void WatcherOnCreated(object sender, FileSystemEventArgs fileSystemEventArgs)
+        {
+            RecordEntry("created ", fileSystemEventArgs.FullPath);
+        }
+
+        //When file has changed start writing a file with all manager's fields
+        private void WatcherOnChanged(object sender, FileSystemEventArgs fileSystemEventArgs)
+        {
+            RecordEntry("changed ", fileSystemEventArgs.FullPath);
+
+            var task = new Task(() =>
+            {
+                var manager = CreateManagerDto(fileSystemEventArgs.FullPath);
+                RecordManager(manager);
+            });
+            task.Start();
+            task.Wait();
+        }
+
+        private void RecordEntry(string fileEvent, string filePath)
         {
             lock (_obj)
             {
-                using (var writer = new StreamWriter(ConfigurationManager.AppSettings["ServerPath"] + "log.txt", true))
+                using (var writer = new StreamWriter(ConfigurationManager.AppSettings["LogPath"], true))
                 {
-                    writer.WriteLine($"{filePath} was created");
+                    writer.WriteLine($"{filePath} was {fileEvent}");
                     writer.Flush();
+                }
+            }
+        }
+
+        private ManagerDto CreateManagerDto(string fileName)
+        {
+            if (!File.Exists(fileName)) return null;
+            var managerName = fileName.Substring(fileName.LastIndexOf('\\') + 1, 
+                fileName.Length - fileName.LastIndexOf('_') - 4);
+            var managerDate = fileName.Substring(fileName.LastIndexOf('_') + 1, 
+                fileName.Length + 4 - fileName.LastIndexOf('.'));
+            var productsList = new List<ProductDto>();
+
+            using (var reader = new StreamReader(fileName))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    var lineContent = line.Split(',');
+
+                    productsList.Add(new ProductDto()
+                    {
+                        Client = lineContent[0].Trim(),
+                        Name = lineContent[1].Trim(),
+                        Price = decimal.Parse(lineContent[2].Trim())
+                    });
+                }
+            }
+
+            return new ManagerDto()
+            {
+                LastName = managerName,
+                Date = DateTime.ParseExact(managerDate, "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture),
+                Products = productsList
+            };
+        }
+
+        private void RecordManager(ManagerDto manager)
+        {
+            using (var writer = new StreamWriter(ConfigurationManager.AppSettings["ManagerInfoStorage"] + 
+                $"{manager.LastName}.txt"))
+            {
+                foreach (var product in manager.Products)
+                {
+                    writer.WriteLine($"{product.Name} {product.Client} {product.Price}");
                 }
             }
         }
