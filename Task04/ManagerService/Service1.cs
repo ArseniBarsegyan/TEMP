@@ -5,7 +5,6 @@ using System.IO;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
-using CsvHelper;
 using ManagerService.Models;
 
 namespace ManagerService
@@ -77,8 +76,8 @@ namespace ManagerService
 
             var task = new Task(() =>
             {
-                var manager = CreateManagerDto(fileSystemEventArgs.FullPath);
-                RecordManager(manager);
+                var managerDto = CreateManagerDto(fileSystemEventArgs.FullPath);
+                RecordManager(managerDto);
             });
             task.Start();
             task.Wait();
@@ -99,11 +98,18 @@ namespace ManagerService
         private ManagerDto CreateManagerDto(string fileName)
         {
             if (!File.Exists(fileName)) return null;
-            var managerName = fileName.Substring(fileName.LastIndexOf('\\') + 1, 
+            var managerName = fileName.Substring(fileName.LastIndexOf('\\') + 1,
                 fileName.Length - fileName.LastIndexOf('_') - 4);
             var managerDate = fileName.Substring(fileName.LastIndexOf('_') + 1, 
                 fileName.Length + 4 - fileName.LastIndexOf('.'));
             var productsList = new List<ProductDto>();
+
+            var manager = new ManagerDto()
+            {
+                LastName = managerName,
+                Date = DateTime.ParseExact(managerDate, "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture),
+            };
+            
 
             using (var reader = new StreamReader(fileName))
             {
@@ -116,17 +122,14 @@ namespace ManagerService
                     {
                         Client = lineContent[0].Trim(),
                         Name = lineContent[1].Trim(),
-                        Price = decimal.Parse(lineContent[2].Trim())
+                        Price = decimal.Parse(lineContent[2].Trim()),
+                        Manager = manager
                     });
                 }
             }
 
-            return new ManagerDto()
-            {
-                LastName = managerName,
-                Date = DateTime.ParseExact(managerDate, "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture),
-                Products = productsList
-            };
+            manager.Products = productsList;
+            return manager;
         }
 
         private void RecordManager(ManagerDto manager)
@@ -136,7 +139,7 @@ namespace ManagerService
             {
                 foreach (var product in manager.Products)
                 {
-                    writer.WriteLine($"{product.Name} {product.Client} {product.Price}");
+                    writer.WriteLine($"{product.Name} {product.Client} {product.Price} {product.Manager.LastName}");
                 }
             }
         }

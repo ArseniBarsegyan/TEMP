@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using CsvHelper;
-using ManagerService.Models;
 
 namespace ManagerServiceConsole
 {
@@ -13,56 +11,6 @@ namespace ManagerServiceConsole
         static void Main(string[] args)
         {
             Run();
-            //RecordManager();
-        }
-
-        static void RecordManager()
-        {
-            var manager = CreateManagerDto(@"D:\ManagerServer\Barsegyan_03062017.csv");
-
-            using (var writer = new StreamWriter(@"D:\Barsegyan.txt"))
-            {
-                foreach (var product in manager.Products)
-                {
-                    writer.WriteLine($"{product.Name} {product.Client} {product.Price}");
-                }
-            }
-        }
-
-        //Incorrect parse (need to fix name substring and date substring)
-        static ManagerDto CreateManagerDto(string fileName)
-        {
-            if (!File.Exists(fileName)) return null;
-            var managerName = fileName.Substring(fileName.LastIndexOf('\\') + 1, fileName.Length - fileName.LastIndexOf('_') - 4);
-            var managerDate = fileName.Substring(fileName.LastIndexOf('_') + 1, fileName.Length + 4 - fileName.LastIndexOf('.'));
-            var productsList = new List<ProductDto>();
-
-            using (var parser = new CsvParser(new StreamReader(fileName)))
-            {
-                while (true)
-                {
-                    var row = parser.Read();
-                    if (row == null)
-                    {
-                        break;
-                    }
-
-                    productsList.Add(new ProductDto()
-                    {
-                        Client = row[0].Trim(),
-                        Name = row[1].Trim(),
-                        Price = decimal.Parse(row[2].Trim())
-                    });
-                }
-            }
-
-            var manager = new ManagerDto()
-            {
-                LastName = managerName,
-                Date = DateTime.ParseExact(managerDate, "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture),
-                Products = productsList
-            };
-            return manager;
         }
 
         static void Run()
