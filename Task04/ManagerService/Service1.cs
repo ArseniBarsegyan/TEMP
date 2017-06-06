@@ -97,11 +97,12 @@ namespace ManagerService
 
         private ManagerDto CreateManagerDto(string fileName)
         {
-            if (!File.Exists(fileName)) return null;
-            var managerName = fileName.Substring(fileName.LastIndexOf('\\') + 1,
-                fileName.Length - fileName.LastIndexOf('_') - 4);
-            var managerDate = fileName.Substring(fileName.LastIndexOf('_') + 1, 
-                fileName.Length + 4 - fileName.LastIndexOf('.'));
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+            if (fileNameWithoutExtension == null) return new ManagerDto();
+            var splittedFileName = fileNameWithoutExtension.Split('_');
+            var managerName = splittedFileName[0];
+            var managerDate = splittedFileName[1];
+
             var productsList = new List<ProductDto>();
 
             var manager = new ManagerDto()
@@ -142,6 +143,11 @@ namespace ManagerService
                     writer.WriteLine($"{product.Name} {product.Client} {product.Price} {product.Manager.LastName}");
                 }
             }
+        }
+
+        private void RecordManagerToDataBase(ManagerDto manager)
+        {
+            
         }
     }
 }
