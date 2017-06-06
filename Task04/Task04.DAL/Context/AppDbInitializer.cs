@@ -2,7 +2,7 @@
 
 namespace Task04.DAL.Context
 {
-    public class AppDbInitializer : CreateDatabaseIfNotExists<AppDbContext>
+    public class AppDbInitializer : DropCreateDatabaseIfModelChanges<AppDbContext>
     {
         protected override void Seed(AppDbContext context)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Task04.DAL.Entities
 {
-    public class File
+    public class File : Entity
     {
         public string FileName { get; set; }
         public FileStatus FileStatus { get; set; }

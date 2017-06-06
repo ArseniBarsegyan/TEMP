@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Task04.DAL.Entities
 {
     public class Entity
     {
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
     }
 }

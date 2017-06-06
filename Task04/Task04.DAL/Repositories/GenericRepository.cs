@@ -18,22 +18,27 @@ namespace Task04.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<TEntity> Get()
+        public IQueryable<TEntity> GetAll()
         {
             return DbSet;
         }
 
-        public TEntity Get(Guid id)
+        public void Create(TEntity item)
+        {
+            DbSet.Add(item);
+        }
+
+        public TEntity GetById(int id)
         {
             return DbSet.FirstOrDefault(x => x.Id == id);
         }
 
-        public void Insert(TEntity item)
+        public void Update(TEntity item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
         }
 
-        public void Delete(Guid id)
+        public void Delete(int id)
         {
             var item = DbSet.FirstOrDefault(x => x.Id == id);
             if (item != null)
