@@ -77,7 +77,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ServiceInstall.txt" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Task04.DAL\Task04.DAL.csproj">
       <Project>{E5569CDF-2447-43FD-B64A-618DD6C60A40}</Project>

@@ -7,7 +7,7 @@ namespace Task04.DAL.Context
     {
         static AppDbContext()
         {
-            Database.SetInitializer(new AppDbInitializer());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AppDbContext>());
         }
 
         public AppDbContext(string connectionString) 

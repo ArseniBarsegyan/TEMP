@@ -74,9 +74,7 @@ namespace ManagerService.Classes
 
         private void WriteDataToDataBaseFromFile(string fileName)
         {
-            var context = new AppDbContext("DefaultConnection");
-            _managerRepo = new GenericRepository<Manager>(context);
-            _productRepo = new GenericRepository<Product>(context);
+            _managerRepo = new GenericRepository<Manager>(new AppDbContext("DefaultConnection"));
 
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             if (fileNameWithoutExtension == null) return;
@@ -117,21 +115,16 @@ namespace ManagerService.Classes
                     if (manager == null)
                     {
                         manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
-                        product.Manager = manager;
                         manager.Products.Add(product);
                         _managerRepo.Create(manager);
-                        _productRepo.Create(product);
                     }
                     else
                     {
-                        product.Manager = manager;
                         manager.Products.Add(product);
                         _managerRepo.Update(manager);
-                        _productRepo.Create(product);
                     }
 
                     _managerRepo.Save();
-                    _productRepo.Save();
                 }
             }
         }

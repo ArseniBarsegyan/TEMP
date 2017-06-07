@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\AppDbContext.cs" />
-    <Compile Include="Context\AppDbInitializer.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\FileStatus.cs" />
