@@ -15,9 +15,7 @@ namespace TestMapper
         {
             using (var streamReader = new StreamReader(@"D:\test_06062017.txt"))
             {
-                var context = new AppContext("DefaultConnection");
-                var managerRepo = new GenericRepository<Manager>(context);
-                var productRepo = new GenericRepository<Product>(context);
+                var managerRepo = new GenericRepository<Manager>(new AppContext("DefaultConnection"));
 
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(@"D:\test_06062017.txt");
                 var splittedFileName = fileNameWithoutExtension.Split('_');
@@ -55,21 +53,16 @@ namespace TestMapper
                     if (manager == null)
                     {
                         manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
-                        product.Manager = manager;
                         manager.Products.Add(product);
                         managerRepo.Create(manager);
-                        productRepo.Create(product);
                     }
                     else
                     {
-                        product.Manager = manager;
                         manager.Products.Add(product);
                         managerRepo.Update(manager);
-                        productRepo.Create(product);
                     }
 
                     managerRepo.Save();
-                    productRepo.Save();
                 }
             }
 
