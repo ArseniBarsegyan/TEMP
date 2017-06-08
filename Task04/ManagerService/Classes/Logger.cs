@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using ManagerService.Models;
-using Task04.DAL.Context;
+using Task04.DAL.EF;
 using Task04.DAL.Entities;
 using Task04.DAL.Repositories;
 
@@ -16,6 +16,7 @@ namespace ManagerService.Classes
     {
         private readonly FileSystemWatcher _watcher;
         object _obj = new object();
+        private object _lockobj = new object();
         private bool _enabled = true;
         private GenericRepository<Manager> _managerRepo;
         private GenericRepository<Product> _productRepo;
@@ -111,20 +112,24 @@ namespace ManagerService.Classes
 
                     var product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
 
-                    var manager = _managerRepo.GetAll().FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
-                    if (manager == null)
+                    lock (_lockobj)
                     {
-                        manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
-                        manager.Products.Add(product);
-                        _managerRepo.Create(manager);
-                    }
-                    else
-                    {
-                        manager.Products.Add(product);
-                        _managerRepo.Update(manager);
-                    }
+                        var manager = _managerRepo.GetAll().FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
+                        if (manager == null)
+                        {
+                            manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
+                            manager.Products.Add(product);
+                            _managerRepo.Create(manager);
+                        }
+                        else
+                        {
+                            manager.Products.Add(product);
+                            _managerRepo.Update(manager);
+                        }
 
-                    _managerRepo.Save();
+                        _managerRepo.Save();
+                    }
+                    
                 }
             }
         }
