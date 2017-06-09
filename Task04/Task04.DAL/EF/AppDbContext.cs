@@ -18,6 +18,5 @@ namespace Task04.DAL.EF
         
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<File> Files { get; set; }
     }
 }

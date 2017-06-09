@@ -15,11 +15,10 @@ namespace ManagerService.Classes
     public class Logger
     {
         private readonly FileSystemWatcher _watcher;
-        object _obj = new object();
+        private readonly object _obj = new object();
         private object _lockobj = new object();
         private bool _enabled = true;
         private GenericRepository<Manager> _managerRepo;
-        private GenericRepository<Product> _productRepo;
 
         public Logger()
         {
@@ -53,12 +52,39 @@ namespace ManagerService.Classes
         {
             RecordEntry("changed ", fileSystemEventArgs.FullPath);
 
-            var task = new Task(() =>
+            try
             {
-                WriteDataToDataBaseFromFile(fileSystemEventArgs.FullPath);
-            });
-            task.Start();
-            task.Wait();
+                var task = new Task(() =>
+                {
+                    WriteDataToDataBaseFromFile(fileSystemEventArgs.FullPath);
+                    //Delete file after recording to database, write to log about success
+                    File.Delete(fileSystemEventArgs.FullPath);
+                    RecordEntry("File has been successfully proceeded", fileSystemEventArgs.FullPath);
+                });
+                task.Start();
+                task.Wait();
+            }
+            catch (ThreadInterruptedException)
+            {
+                //If something goes wrong move file from source path to directory
+                //with failed files, write to log about success
+
+                var sourceFullName = fileSystemEventArgs.FullPath;
+                var destinationPath = ConfigurationManager.AppSettings["FailedFilesStorage"];
+                var destinationFullName = destinationPath + Path.GetFileName(sourceFullName);
+
+                RecordEntry("error occured when proceeded ", fileSystemEventArgs.FullPath);
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(ConfigurationManager.AppSettings["FailedFilesStorage"]);
+                }
+
+                if (File.Exists(destinationFullName))
+                {
+                    File.Delete(destinationFullName);
+                }
+                File.Move(sourceFullName, destinationFullName);
+            }
         }
 
         private void RecordEntry(string fileEvent, string filePath)
