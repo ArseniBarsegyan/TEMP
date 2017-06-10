@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using AutoMapper;
 using ManagerService.Models;
-using Task04.DAL.Context;
+using Task04.DAL.EF;
 using Task04.DAL.Entities;
 using Task04.DAL.Repositories;
 
