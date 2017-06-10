@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace ManagerService.Classes
     public class Logger
     {
         private readonly FileSystemWatcher _watcher;
-        private object _obj = new object();
+        private readonly object _obj = new object();
         private bool _enabled = true;
-        private CsvDbRecorder _dbRecorder;
+        private readonly CsvDbRecorder _dbRecorder;
 
         public Logger()
         {
@@ -69,26 +70,26 @@ namespace ManagerService.Classes
                 task.Start();
                 task.Wait();
             }
-            catch (ThreadInterruptedException)
+            catch (Exception)
             {
                 //If something goes wrong move file from source path to directory
                 //with failed files, write to log about success
 
-                //var sourceFullName = fileSystemEventArgs.FullPath;
-                //var destinationPath = ConfigurationManager.AppSettings["FailedFilesStorage"];
-                //var destinationFullName = destinationPath + Path.GetFileName(sourceFullName);
+                var sourceFullName = fileSystemEventArgs.FullPath;
+                var destinationPath = ConfigurationManager.AppSettings["FailedFilesStorage"];
+                var destinationFullName = destinationPath + Path.GetFileName(sourceFullName);
 
-                //RecordEntry("error occured when proceeded ", fileSystemEventArgs.FullPath);
-                //if (!Directory.Exists(destinationPath))
-                //{
-                //    Directory.CreateDirectory(ConfigurationManager.AppSettings["FailedFilesStorage"]);
-                //}
+                RecordEntry("error occured when proceeded ", fileSystemEventArgs.FullPath);
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(ConfigurationManager.AppSettings["FailedFilesStorage"]);
+                }
 
-                //if (File.Exists(destinationFullName))
-                //{
-                //    File.Delete(destinationFullName);
-                //}
-                //File.Move(sourceFullName, destinationFullName);
+                if (File.Exists(destinationFullName))
+                {
+                    File.Delete(destinationFullName);
+                }
+                File.Move(sourceFullName, destinationFullName);
             }
         }
     }
