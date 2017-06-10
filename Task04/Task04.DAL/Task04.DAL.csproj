@@ -47,10 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\AppDbContext.cs" />
+    <Compile Include="EF\AppDbContext.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\File.cs" />
-    <Compile Include="Entities\FileStatus.cs" />
     <Compile Include="Entities\Manager.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

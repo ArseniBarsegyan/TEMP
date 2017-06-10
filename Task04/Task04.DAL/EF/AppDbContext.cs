@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Task04.DAL.Entities;
 
-namespace Task04.DAL.Context
+namespace Task04.DAL.EF
 {
     public class AppDbContext : DbContext
     {
@@ -18,6 +18,5 @@ namespace Task04.DAL.Context
         
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<File> Files { get; set; }
     }
 }
