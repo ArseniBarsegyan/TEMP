@@ -1,0 +1,31 @@
+﻿@model GameStore.Models.Game
+
+@{
+    ViewBag.Title = "GameList";
+}
+
+@using (Ajax.BeginForm("GameSearch", new AjaxOptions { UpdateTargetId = "results"}))
+{
+    <div class="form-group">
+        <input type="text" name="name"/>
+        <input type="submit" class="btn btn-default" value="Search" />
+    </div>    
+}
+<div id="results">
+</div>
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+<br />
+<table class="table table-bordered">
+    <td colspan="5" align="center">Games</td>
+    @foreach (var g in ViewBag.Games)
+    {
+        <tr>
+            <td><p>@g.Name</p></td>
+            <td><p>@g.Type</p></td>
+            <td><p>@g.Description</p></td>
+            <td><p>@g.Price</p></td>
+            <td><p><a class="btn btn-default" href="/Manage/Order/@g.Id">Buy</a></p></td>
+        </tr>
+        }
+</table>

@@ -1,0 +1,35 @@
+﻿@model GameStore.Models.Game
+
+@{
+    ViewBag.Title = "Catalogue";
+}
+
+<div>
+    <h2>Games catalogue</h2>
+    <a class="btn btn-default" href="/Game/Create/">Add game</a>
+    <p></p>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th><p>Name</p></th>
+                <th><p>Type</p></th>
+                <th><p>Description</p></th>
+                <th><p>Price</p></th>
+                <th><p>Correct game</p></th>
+                <th><p>Delete game</p></th>
+            </tr>
+            @foreach (var g in ViewBag.Games)
+            {
+                <tr>
+                    <td><p>@g.Name</p></td>
+                    <td><p>@g.Type</p></td>
+                    <td><p>@g.Description</p></td>
+                    <td><p>@g.Price</p></td>
+                    <td><p><a class="btn btn-default" href="/Game/Correct/@g.Id">Correct</a></p></td>
+                    <td><p><a class="btn btn-default" href="/Game/Delete/@g.Id">Delete</a></p></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

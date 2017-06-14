@@ -1,0 +1,15 @@
+﻿@model GameStore.Models.Game
+    
+<div id="searchresults">
+    <h2>Results:</h2>
+    <br />
+    <table class="table table-bordered">        
+        <tr>
+            <td><p>@ViewBag.Game.Name</p></td>
+            <td><p>@ViewBag.Game.Type</p></td>
+            <td><p>@ViewBag.Game.Description</p></td>
+            <td><p>@ViewBag.Game.Price</p></td>
+            <td><p><a class="btn btn-default" href="/Manage/Order/@ViewBag.Game.Id">Buy</a></p></td>
+        </tr>
+    </table>
+</div>

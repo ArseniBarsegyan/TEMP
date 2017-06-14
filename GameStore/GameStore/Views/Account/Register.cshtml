@@ -1,0 +1,52 @@
+﻿@model GameStore.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>User register</h4>
+        <hr />
+        @Html.ValidationSummary(false)
+
+        <div>
+            Email
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+
+        <div>
+            Year of birth
+            <div>
+                @Html.EditorFor(model => model.Year)
+            </div>
+        </div>
+
+        <div>
+            Password
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Confirm password
+            <div>
+                @Html.EditorFor(model => model.PasswordConfirm)
+            </div>
+        </div>
+        <br />
+            Already have account? @Html.ActionLink("Log in", "Login")
+        <br />
+        <div>
+            <div>
+                <input type="submit" value="Register" />
+            </div>
+        </div>
+    </div>
+}

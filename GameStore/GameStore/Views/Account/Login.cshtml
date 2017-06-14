@@ -1,0 +1,28 @@
+﻿@model GameStore.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary()
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <p>
+            <label>Email</label><br />
+            @Html.EditorFor(x => x.Email)
+        </p>
+        <p>
+            <label>Password</label><br />
+            @Html.EditorFor(x => x.Password)
+        </p>
+        <p>
+            @Html.ActionLink("Forgot password?", "ForgotPassword")
+        </p>
+        <p><button type="submit">Войти</button></p>
+    </div>
+}
+

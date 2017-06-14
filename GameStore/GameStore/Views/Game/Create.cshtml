@@ -1,0 +1,31 @@
+﻿@model GameStore.Models.Game
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create game</h2>
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(g => g.Name, "Name")
+    <br />
+    @Html.EditorFor(g => g.Name)
+    <br />
+    @Html.LabelFor(g => g.Type, "Type")
+    <br />
+    @Html.EditorFor(g => g.Type)
+    <br />
+    @Html.LabelFor(g => g.Description, "Description")
+    <br />
+    @Html.EditorFor(g => g.Description)
+    <br />
+    @Html.LabelFor(g => g.Price, "Price")
+    <br />
+    @Html.EditorFor(g => g.Price)
+    <br />
+    <br />
+    <input type="submit" class="btn btn-success" value="Create" />
+}
+<br />
+<input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />
+

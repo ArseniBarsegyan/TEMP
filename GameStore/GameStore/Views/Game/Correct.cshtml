@@ -1,0 +1,33 @@
+﻿@model GameStore.Models.Game
+
+@{
+    ViewBag.Title = "Correct";
+}
+
+<h2>Correct game</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(g => g.Id)
+    @Html.LabelFor(g => g.Name, "Name")
+    <br />
+    @Html.EditorFor(g => g.Name)
+    <br />
+    @Html.LabelFor(g => g.Type, "Type")
+    <br />
+    @Html.EditorFor(g => g.Type)
+    <br />
+    @Html.LabelFor(g => g.Description, "Description")
+    <br />
+    @Html.EditorFor(g => g.Description)
+    <br />
+    @Html.LabelFor(g => g.Price, "Price")
+    <br />
+    @Html.EditorFor(g => g.Price)
+    <br />
+    <br />
+    <input type="submit" class="btn btn-danger" value="Correct" />
+}
+<br />
+<input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />
+

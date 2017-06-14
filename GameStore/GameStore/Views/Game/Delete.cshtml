@@ -1,0 +1,16 @@
+﻿@model GameStore.Models.Game
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Deleting a game from a list</h2>
+@using (Html.BeginForm())
+{
+    @Html.DisplayFor(m => m.Name)
+    <br />
+    <input type="submit" class="btn btn-danger" value="Delete" />
+}
+<br />
+<input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />
+
