@@ -20,6 +20,21 @@ namespace UserStore.BLL.Services
             UnitOfWork = unitOfWork;
         }
 
+        public async Task<IQueryable<UserDto>> GetAllUsersList()
+        {
+            var userList = new List<UserDto>();
+            foreach (var user in UnitOfWork.UserManager.Users)
+            {
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    Role = user.Roles.FirstOrDefault().ToString()
+                };
+            }
+            return userList.AsQueryable();
+        }
+
         public async Task<OperationDetails> CreateAsync(UserDto userDto)
         {
             var user = await UnitOfWork.UserManager.FindByNameAsync(userDto.Name);
