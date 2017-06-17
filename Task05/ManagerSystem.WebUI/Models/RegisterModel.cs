@@ -5,7 +5,7 @@ namespace ManagerSystem.WebUI.Models
     public class RegisterModel
     {
         [Required]
-        public string Email { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -15,8 +15,5 @@ namespace ManagerSystem.WebUI.Models
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        public string Name { get; set; }
     }
 }

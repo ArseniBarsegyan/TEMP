@@ -27,7 +27,7 @@ namespace ManagerSystem.WebUI.Controllers
             await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
-                var userDto = new UserDTO {Email = model.Email, Password = model.Password};
+                var userDto = new UserDTO {Name = model.Name, Password = model.Password};
                 var claim = await UserService.Authenticate(userDto);
                 if (claim == null)
                 {
@@ -65,10 +65,9 @@ namespace ManagerSystem.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO
-                {
-                    Email = model.Email,
-                    Password = model.Password,
+                { 
                     Name = model.Name,
+                    Password = model.Password,
                     Role = "user"
                 };
 
@@ -84,7 +83,6 @@ namespace ManagerSystem.WebUI.Controllers
         {
             await UserService.SetInitialData(new UserDTO
             {
-                Email = "Arseni.Barsegyan@gmail.com",
                 Name = "Arseni Barsegyan",
                 Password = "A123",
                 Role = "admin"
