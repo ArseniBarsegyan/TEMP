@@ -22,10 +22,10 @@ namespace ManagerSystem.UserStore.BLL.Services
 
         public async Task<OperationDetails> CreateAsync(UserDTO userDto)
         {
-            var user = await UnitOfWork.UserManager.FindByEmailAsync(userDto.Email);
-            if (user != null) return new OperationDetails(false, "User with this login already exists", "Email");
+            var user = await UnitOfWork.UserManager.FindByNameAsync(userDto.Name);
+            if (user != null) return new OperationDetails(false, "User with this login already exists", "Name");
 
-            user = new ApplicationUser {Email = userDto.Email, UserName = userDto.Name};
+            user = new ApplicationUser {UserName = userDto.Name};
             var result = await UnitOfWork.UserManager.CreateAsync(user, userDto.Password);
             if (result.Errors.Any())
                 return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
@@ -41,7 +41,7 @@ namespace ManagerSystem.UserStore.BLL.Services
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            var user = await UnitOfWork.UserManager.FindAsync(userDto.Email, userDto.Password);
+            var user = await UnitOfWork.UserManager.FindAsync(userDto.Name, userDto.Password);
 
             if (user != null)
             {
