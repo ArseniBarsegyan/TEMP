@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
@@ -26,9 +27,10 @@ namespace UserStore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
         {
+            await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
-                var userDto = new UserDto {Name = model.Name, Password = model.Password, Role = "user"};
+                var userDto = new UserDto {Name = model.Name, Password = model.Password};
                 var claim = await UserService.Authenticate(userDto);
                 if (claim == null)
                 {
@@ -51,6 +53,16 @@ namespace UserStore.WebUI.Controllers
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+
+        private async Task SetInitialDataAsync()
+        {
+            await UserService.SetInitialData(new UserDto
+            {
+                Name = "Arseni",
+                Password = "Arseni",
+                Role = "admin"
+            }, new List<string> { "user", "admin" });
         }
     }
 }
