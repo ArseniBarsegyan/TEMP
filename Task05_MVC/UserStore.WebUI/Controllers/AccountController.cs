@@ -12,16 +12,19 @@ using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
