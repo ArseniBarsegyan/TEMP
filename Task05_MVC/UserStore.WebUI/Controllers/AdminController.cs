@@ -69,5 +69,15 @@ namespace UserStore.WebUI.Controllers
             }
             return View();
         }
+
+        public ActionResult Delete(string id)
+        {
+            var userDto = UserService.GetById(id);
+            if (userDto != null)
+            {
+                return View(userDto);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
