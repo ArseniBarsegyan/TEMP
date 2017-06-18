@@ -13,6 +13,7 @@ namespace UserStore.BLL.Interfaces
         IEnumerable<UserDto> GetAllUsersList();
         Task<OperationDetails> CreateAsync(UserDto userDto);
         Task<OperationDetails> EditAsync(UserDto userDto);
+        Task<OperationDetails> DeleteAsync(UserDto userDto);
         Task<ClaimsIdentity> Authenticate(UserDto userDto);
         Task SetInitialData(UserDto adminDto, IEnumerable<string> roles);
     }

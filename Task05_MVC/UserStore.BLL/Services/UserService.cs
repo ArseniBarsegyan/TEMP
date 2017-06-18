@@ -103,6 +103,21 @@ namespace UserStore.BLL.Services
             return new OperationDetails(false, "User not found", "");
         }
 
+        public async Task<OperationDetails> DeleteAsync(UserDto userDto)
+        {
+            var user = await UnitOfWork.UserManager.FindByIdAsync(userDto.Id);
+            if (user != null)
+            {
+                var result = await UnitOfWork.UserManager.DeleteAsync(user);
+                await UnitOfWork.SaveAsync();
+                if (result.Succeeded)
+                {
+                    return new OperationDetails(true, "Successfully deleted", "");
+                }
+            }
+            return new OperationDetails(false, "User not found", "");
+        }
+
         public async Task<ClaimsIdentity> Authenticate(UserDto userDto)
         {
             ClaimsIdentity claim = null;
