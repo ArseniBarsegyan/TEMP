@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,19 +21,17 @@ namespace UserStore.BLL.Services
             UnitOfWork = unitOfWork;
         }
 
-        public async Task<IQueryable<UserDto>> GetAllUsersList()
+        public IEnumerable<UserDto> GetAllUsersList()
         {
-            var userList = new List<UserDto>();
-            foreach (var user in UnitOfWork.UserManager.Users)
+            var userList = UnitOfWork.UserManager.Users.ToList();
+
+            var userDtoList = userList.Select(user => new UserDto
             {
-                var userDto = new UserDto
-                {
-                    Id = user.Id,
-                    Name = user.UserName,
-                    Role = user.Roles.FirstOrDefault().ToString()
-                };
-            }
-            return userList.AsQueryable();
+                Id = user.Id,
+                Name = user.UserName,
+                Role = user.Roles.First().RoleId
+            }).ToList();
+            return userDtoList.AsEnumerable();
         }
 
         public async Task<OperationDetails> CreateAsync(UserDto userDto)
