@@ -9,8 +9,6 @@ using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
 {
-    //Admin controls all users creation
-    //and can manipulate them and sell data
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
@@ -21,14 +19,13 @@ namespace UserStore.WebUI.Controllers
         {
             return View(UserService.GetAllUsersList());
         }
-
+    
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -47,6 +44,30 @@ namespace UserStore.WebUI.Controllers
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);
+        }
+        
+        public ActionResult Edit(string id)
+        {
+            var userDto = UserService.GetById(id);
+            if (userDto != null)
+            {
+                return View(userDto);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserDto userDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var operationDetails = await UserService.EditAsync(userDto);
+
+                if (operationDetails.Succedeed)
+                    return RedirectToAction("Index", "Admin");
+                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+            }
+            return View();
         }
     }
 }
