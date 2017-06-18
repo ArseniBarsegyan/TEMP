@@ -1,0 +1,14 @@
+﻿@model UserStore.BLL.DTO.UserDto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete user</h2>
+
+<div>
+    <p>@Model.Name</p>
+</div>
+<input type="submit" class="btn btn-danger" value="Delete" />
+<input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />
+
