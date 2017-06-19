@@ -13,9 +13,9 @@ namespace UserStore.BLL.Services
 {
     public class UserService : IUserService
     {
-        private IUnitOfWork UnitOfWork { get; }
+        private IIdentityUnitOfWork UnitOfWork { get; }
 
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IIdentityUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

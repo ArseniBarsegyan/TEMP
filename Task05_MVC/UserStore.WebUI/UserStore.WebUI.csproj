@@ -175,10 +175,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\PurchaseModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -223,9 +225,12 @@
     <Content Include="Views\Admin\Register.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Purchase\Index.cshtml" />
+    <Content Include="Views\Purchase\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -246,6 +251,10 @@
     <ProjectReference Include="..\UserStore.BLL\UserStore.BLL.csproj">
       <Project>{EF548CBD-E63C-4CFB-94A2-9CC22BD7B0D3}</Project>
       <Name>UserStore.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserStore.DAL\UserStore.DAL.csproj">
+      <Project>{D59D21E4-D90E-48D3-81D5-AD8F0E179578}</Project>
+      <Name>UserStore.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -13,7 +13,7 @@ namespace UserStore.WebUI.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "Passwords doesn't match")]
         public string ConfirmPassword { get; set; }
     }
 }

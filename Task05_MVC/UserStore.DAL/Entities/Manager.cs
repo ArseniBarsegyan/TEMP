@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Task04.DAL.Entities
+namespace UserStore.DAL.Entities
 {
     public class Manager : Entity
     {
@@ -10,6 +10,6 @@ namespace Task04.DAL.Entities
         }
 
         public string LastName { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

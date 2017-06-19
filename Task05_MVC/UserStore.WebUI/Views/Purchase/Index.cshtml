@@ -1,0 +1,44 @@
+﻿@using UserStore.BLL.DTO
+
+@model IEnumerable<PurchaseDto>
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@Html.ActionLink("Create purchase", "Create", "Purchase")
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        All sales
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Manager name</th>
+            <th>Client name</th>
+            <th>Product name</th>
+            <th>Product price</th>
+            <th>Purchase date</th>
+        </tr>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center">There is no purchases</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var purchase in Model)
+            {
+                <tr>
+                    <td>@purchase.ManagerName</td>
+                    <td>@purchase.ClientName</td>
+                    <td>@purchase.ProductName</td>
+                    <td>@purchase.Price</td>
+                    <td>@purchase.Date</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+

@@ -1,30 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.EntityFramework;
-using UserStore.DAL.EF;
-using UserStore.DAL.Entities;
-using UserStore.DAL.Identity;
-using UserStore.DAL.Interfaces;
+using Task04.DAL.EF;
+using Task04.DAL.Entities;
 
-namespace UserStore.DAL.Repositories
+namespace Task04.DAL.Repositories
 {
-    public class IdentityUnitOfWork : IIdentityUnitOfWork
+    public class PurchasesUnitOfWork
     {
-        private ApplicationContext _context;
+        private AppDbContext _context;
         private bool _disposed;
 
-        public IdentityUnitOfWork(string connectionString)
+        public PurchasesUnitOfWork(string connectionString)
         {
-            _context = new ApplicationContext(connectionString);
-            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
-            RoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_context));
+            _context = new AppDbContext(connectionString);
             ClientRepository = new GenericRepository<Client>(_context);
             ProductRepository = new GenericRepository<Product>(_context);
             ManagerRepository = new GenericRepository<Manager>(_context);
         }
 
-        public ApplicationUserManager UserManager { get; }
-        public ApplicationRoleManager RoleManager { get; }
         public GenericRepository<Client> ClientRepository { get; }
         public GenericRepository<Product> ProductRepository { get; }
         public GenericRepository<Manager> ManagerRepository { get; }
@@ -45,8 +38,9 @@ namespace UserStore.DAL.Repositories
             if (_disposed) return;
             if (disposing)
             {
-                UserManager.Dispose();
-                RoleManager.Dispose();
+                ClientRepository.Dispose();
+                ProductRepository.Dispose();
+                ManagerRepository.Dispose();
             }
             _disposed = true;
         }

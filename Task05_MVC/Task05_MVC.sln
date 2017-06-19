@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStore.BLL", "UserStore.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStore.WebUI", "UserStore.WebUI\UserStore.WebUI.csproj", "{E6795516-70D0-4C87-A934-44F6B6548B91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task04.DAL", "..\Task04\Task04.DAL\Task04.DAL.csproj", "{E5569CDF-2447-43FD-B64A-618DD6C60A40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E6795516-70D0-4C87-A934-44F6B6548B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6795516-70D0-4C87-A934-44F6B6548B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6795516-70D0-4C87-A934-44F6B6548B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5569CDF-2447-43FD-B64A-618DD6C60A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5569CDF-2447-43FD-B64A-618DD6C60A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5569CDF-2447-43FD-B64A-618DD6C60A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5569CDF-2447-43FD-B64A-618DD6C60A40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
