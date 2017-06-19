@@ -10,11 +10,11 @@ namespace UserStore.WebUI.Controllers
     [Authorize(Roles = "admin")]
     public class PurchaseController : Controller
     {
-        private ISalesService _salesService = new SalesService(new IdentityUnitOfWork("DefaultConnection"));
+        private IPurchaseService _purchaseService = new PurchaseService(new IdentityUnitOfWork("DefaultConnection"));
 
         public ActionResult Index()
         {
-            var allSales = _salesService.GetAllSalesList();
+            var allSales = _purchaseService.GetAllSalesList();
             return View(allSales);
         }
 
@@ -37,7 +37,7 @@ namespace UserStore.WebUI.Controllers
                     Date = model.Date
                 };
 
-                var operationDetails = _salesService.Create(purchaseDto);
+                var operationDetails = _purchaseService.Create(purchaseDto);
                 if (operationDetails.Succedeed)
                     return RedirectToAction("Index", "Purchase");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);

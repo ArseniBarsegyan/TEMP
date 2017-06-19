@@ -4,7 +4,7 @@ using UserStore.BLL.Infrastructure;
 
 namespace UserStore.BLL.Interfaces
 {
-    public interface ISalesService
+    public interface IPurchaseService
     {
         IEnumerable<PurchaseDto> GetAllSalesList();
         OperationDetails Create(PurchaseDto saleDto);

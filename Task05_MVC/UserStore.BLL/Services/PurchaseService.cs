@@ -9,11 +9,11 @@ using UserStore.DAL.Entities;
 
 namespace UserStore.BLL.Services
 {
-    public class SalesService : ISalesService
+    public class PurchaseService : IPurchaseService
     {
         private IdentityUnitOfWork UnitOfWork { get; }
 
-        public SalesService(IdentityUnitOfWork unitOfWork)
+        public PurchaseService(IdentityUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
@@ -52,24 +52,27 @@ namespace UserStore.BLL.Services
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
             });
 
-            var product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
+            var manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
             var client = Mapper.Map<PurchaseDto, Client>(purchaseDto);
-            client.Product = product;
 
-            var manager = UnitOfWork.ManagerRepository.GetAll()
-                .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
-            if (manager == null)
+            var product = UnitOfWork.ProductRepository.GetAll()
+                .FirstOrDefault(x => x.Name == purchaseDto.ProductName);
+            if (product == null)
             {
-                manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
-                manager.Products.Add(product);
-                UnitOfWork.ManagerRepository.Create(manager);
-                UnitOfWork.ManagerRepository.Save();
+                product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
+                product.Manager = manager;
+                product.Client = client;
+                client.Product = product;
+                UnitOfWork.ProductRepository.Create(product);
+                UnitOfWork.ProductRepository.Save();
             }
             else
             {
-                manager.Products.Add(product);
-                UnitOfWork.ManagerRepository.Update(manager);
-                UnitOfWork.ManagerRepository.Save();
+                product.Manager = manager;
+                product.Client = client;
+                client.Product = product;
+                UnitOfWork.ProductRepository.Update(product);
+                UnitOfWork.ProductRepository.Save();
             }
 
             return new OperationDetails(true, "successfull created", "");
