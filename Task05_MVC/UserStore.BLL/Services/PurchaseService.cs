@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using UserStore.BLL.DTO;
@@ -21,16 +22,17 @@ namespace UserStore.BLL.Services
         public IEnumerable<PurchaseDto> GetAllSalesList()
         {
             var salesList = new List<PurchaseDto>();
-            var allProducts = UnitOfWork.ProductRepository.GetAll();
+            var allProducts = UnitOfWork.ProductRepository.GetAll().Include(x => x.Client)
+                .Include(x => x.Manager);
             
             foreach (var product in allProducts)
             {
                 var saleDto = new PurchaseDto()
                 {
-                    ProductName = product.Name,
                     ClientName = product.Client.Name,
-                    Date = product.Date,
                     ManagerName = product.Manager.LastName,
+                    ProductName = product.Name,
+                    Date = product.Date,
                     Price = product.Price
                 };
                 salesList.Add(saleDto);
@@ -52,28 +54,38 @@ namespace UserStore.BLL.Services
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
             });
 
-            var manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
-            var client = Mapper.Map<PurchaseDto, Client>(purchaseDto);
+            var product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
 
-            var product = UnitOfWork.ProductRepository.GetAll()
-                .FirstOrDefault(x => x.Name == purchaseDto.ProductName);
-            if (product == null)
+            var client = UnitOfWork.ClientRepository.GetAll()
+                .FirstOrDefault(x => x.Name == purchaseDto.ClientName);
+
+            if (client == null)
             {
-                product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
-                product.Manager = manager;
-                product.Client = client;
-                client.Product = product;
-                UnitOfWork.ProductRepository.Create(product);
-                UnitOfWork.ProductRepository.Save();
+                client = Mapper.Map<PurchaseDto, Client>(purchaseDto);
+                UnitOfWork.ClientRepository.Create(client);
             }
             else
             {
-                product.Manager = manager;
-                product.Client = client;
-                client.Product = product;
-                UnitOfWork.ProductRepository.Update(product);
-                UnitOfWork.ProductRepository.Save();
+                UnitOfWork.ClientRepository.Update(client);
             }
+            UnitOfWork.ClientRepository.Save();
+            product.Client = client;
+
+            var manager = UnitOfWork.ManagerRepository.GetAll()
+                .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
+
+            if (manager == null)
+            {
+                manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
+                manager.Products.Add(product);
+                UnitOfWork.ManagerRepository.Create(manager);
+            }
+            else
+            {
+                manager.Products.Add(product);
+                UnitOfWork.ManagerRepository.Update(manager);
+            }
+            UnitOfWork.ManagerRepository.Save();
 
             return new OperationDetails(true, "successfull created", "");
         }
