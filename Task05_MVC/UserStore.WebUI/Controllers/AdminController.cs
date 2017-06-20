@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -18,32 +17,6 @@ namespace UserStore.WebUI.Controllers
         public ActionResult Index()
         {
             return View(UserService.GetAllUsersList());
-        }
-    
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var userDto = new UserDto
-                {
-                    Name = model.Name,
-                    Password = model.Password,
-                    Role = "user"
-                };
-
-                var operationDetails = await UserService.CreateAsync(userDto);
-
-                if (operationDetails.Succedeed)
-                    return RedirectToAction("Index", "Admin");
-                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
-            }
-            return View(model);
         }
         
         public ActionResult Edit(string id)
