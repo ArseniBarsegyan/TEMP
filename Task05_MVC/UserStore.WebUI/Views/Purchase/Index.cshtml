@@ -13,6 +13,7 @@
     </div>
     <table class="table table-striped">
         <tr>
+            <th>Product Id</th>
             <th>Manager name</th>
             <th>Client name</th>
             <th>Product name</th>
@@ -30,6 +31,7 @@
             foreach (var purchase in Model)
             {
                 <tr>
+                    <td>@purchase.Id</td>
                     <td>@purchase.ManagerName</td>
                     <td>@purchase.ClientName</td>
                     <td>@purchase.ProductName</td>
