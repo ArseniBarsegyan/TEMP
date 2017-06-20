@@ -95,7 +95,6 @@ namespace UserStore.BLL.Services
             product.Date = purchaseDto.Date;
             product.Price = purchaseDto.Price;
             UnitOfWork.ProductRepository.Update(product);
-            UnitOfWork.Save();
             
             var manager = UnitOfWork.ManagerRepository.GetAll()
                 .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
@@ -105,7 +104,9 @@ namespace UserStore.BLL.Services
                 manager.Products.Add(product);
                 UnitOfWork.ManagerRepository.Create(manager);
             }
+            product.Manager = manager;
 
+            UnitOfWork.Save();
             return new OperationDetails(true, "successfull updated", "");
         }
 
