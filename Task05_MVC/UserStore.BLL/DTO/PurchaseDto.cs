@@ -4,6 +4,7 @@ namespace UserStore.BLL.DTO
 {
     public class PurchaseDto
     {
+        public int Id { get; set; }
         public string ManagerName { get; set; }
         public DateTime Date { get; set; }
         public string ClientName { get; set; }
