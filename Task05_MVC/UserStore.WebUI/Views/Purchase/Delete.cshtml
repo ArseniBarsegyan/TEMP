@@ -1,0 +1,19 @@
+﻿@model UserStore.BLL.DTO.PurchaseDto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Deleting purchase record</h2>
+@using (Html.BeginForm())
+{
+    <br/>
+    @Html.DisplayFor(x => x.ProductName)
+    <br/>
+    @Html.DisplayFor(x => x.Date)
+    <br/>
+    @Html.DisplayFor(x => x.ManagerName)
+    <br />
+    <input type="submit" class="btn btn-danger" value="Delete" />
+}
+<input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />

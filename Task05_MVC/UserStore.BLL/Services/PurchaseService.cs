@@ -19,6 +19,11 @@ namespace UserStore.BLL.Services
             UnitOfWork = unitOfWork;
         }
 
+        public PurchaseDto GetPurchaseDtoById(int id)
+        {
+            return GetAllSalesList().FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<PurchaseDto> GetAllSalesList()
         {
             var salesList = new List<PurchaseDto>();
@@ -43,18 +48,7 @@ namespace UserStore.BLL.Services
 
         public OperationDetails Create(PurchaseDto purchaseDto)
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<PurchaseDto, Product>()
-                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ProductName))
-                    .ForMember(x => x.Date, opt => opt.MapFrom(src => src.Date))
-                    .ForMember(x => x.Price, opt => opt.MapFrom(src => src.Price));
-                cfg.CreateMap<PurchaseDto, Manager>()
-                    .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.ManagerName));
-                cfg.CreateMap<PurchaseDto, Client>()
-                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
-            });
-
+            InitializeMapper();
             var product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
 
             var client = UnitOfWork.ClientRepository.GetAll()
@@ -93,6 +87,37 @@ namespace UserStore.BLL.Services
 
         public OperationDetails Edit(PurchaseDto purchaseDto)
         {
+            InitializeMapper();
+            var product = UnitOfWork.ProductRepository.GetAll()
+                .FirstOrDefault(x => x.Id == purchaseDto.Id);
+
+            product.Name = purchaseDto.ProductName;
+            product.Date = purchaseDto.Date;
+            product.Price = purchaseDto.Price;
+            UnitOfWork.ProductRepository.Update(product);
+            UnitOfWork.Save();
+            
+            var manager = UnitOfWork.ManagerRepository.GetAll()
+                .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
+            if (manager == null)
+            {
+                manager = Mapper.Map<PurchaseDto, Manager>(purchaseDto);
+                manager.Products.Add(product);
+                UnitOfWork.ManagerRepository.Create(manager);
+            }
+
+            return new OperationDetails(true, "successfull updated", "");
+        }
+
+        public OperationDetails Delete(int id)
+        {
+            UnitOfWork.ProductRepository.Delete(id);
+            UnitOfWork.Save();
+            return new OperationDetails(true, "successfull deleted", "");
+        }
+
+        private void InitializeMapper()
+        {
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<PurchaseDto, Product>()
@@ -104,47 +129,6 @@ namespace UserStore.BLL.Services
                 cfg.CreateMap<PurchaseDto, Client>()
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
             });
-
-            var product = UnitOfWork.ProductRepository.GetAll()
-                .FirstOrDefault(x => x.Id == purchaseDto.Id);
-            if (product == null)
-            {
-                product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
-            }
-            else
-            {
-                
-            }
-
-            var manager = UnitOfWork.ManagerRepository.GetAll()
-                .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
-            if (manager == null)
-            {
-                
-            }
-            else
-            {
-                
-            }
-
-            var client = UnitOfWork.ClientRepository.GetAll()
-                .FirstOrDefault(x => x.Name == purchaseDto.ClientName);
-            if (client == null)
-            {
-
-            }
-            else
-            {
-                
-            }
-
-            
-            return new OperationDetails(true, "successfull updated", "");
-        }
-
-        public OperationDetails Delete(int id)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

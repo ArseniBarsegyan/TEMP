@@ -1,12 +1,14 @@
-﻿@model UserStore.WebUI.Models.PurchaseCreateModel
+﻿@model UserStore.BLL.DTO.PurchaseDto
 
 @{
-    ViewBag.Title = "Create purchase";
+    ViewBag.Title = "Edit";
 }
 
-@Html.ValidationSummary(false)
+<h2>Edit purchase</h2>
+
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(x => x.Id)
     <div class="form-group">
         <label>Manager name</label>
         @Html.TextBoxFor(x => x.ManagerName, new { @class = "form-control" })
@@ -18,12 +20,7 @@
     </div>
 
     <div class="form-group">
-        <label>Client name</label>
-        @Html.TextBoxFor(x => x.ClientName, new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        <label>Product price</label>
+        <label>Price</label>
         @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
     </div>
 
@@ -32,6 +29,11 @@
         @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
     </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
+    <div class="form-group">
+        <label>Client name</label>
+        @Html.TextBoxFor(x => x.ClientName, new { @class = "form-control" })
+    </div>
+
+    <input type="submit" class="btn btn-danger" value="Correct" />
     <input type="button" class="btn btn-default" title="Back" value="Back" onclick="history.back()" />
 }

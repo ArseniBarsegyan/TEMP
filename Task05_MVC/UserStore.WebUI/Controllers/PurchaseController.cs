@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.BLL.Services;
@@ -24,7 +25,7 @@ namespace UserStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PurchaseModel model)
+        public ActionResult Create(PurchaseCreateModel model)
         {
             if (ModelState.IsValid)
             {
@@ -43,6 +44,44 @@ namespace UserStore.WebUI.Controllers
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var purchaseDto = _purchaseService.GetPurchaseDtoById(id);
+            if (purchaseDto != null)
+            {
+                return View(purchaseDto);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(PurchaseDto purchaseDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _purchaseService.Edit(purchaseDto);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var purchaseDto = _purchaseService.GetPurchaseDtoById(id);
+            if (purchaseDto != null)
+            {
+                return View(purchaseDto);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            _purchaseService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }
