@@ -29,6 +29,7 @@ namespace UserStore.BLL.Services
             {
                 var saleDto = new PurchaseDto()
                 {
+                    Id = product.Id,
                     ClientName = product.Client.Name,
                     ManagerName = product.Manager.LastName,
                     ProductName = product.Name,
@@ -90,12 +91,58 @@ namespace UserStore.BLL.Services
             return new OperationDetails(true, "successfull created", "");
         }
 
-        public OperationDetails Edit(PurchaseDto saleDto)
+        public OperationDetails Edit(PurchaseDto purchaseDto)
         {
-            throw new System.NotImplementedException();
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<PurchaseDto, Product>()
+                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ProductName))
+                    .ForMember(x => x.Date, opt => opt.MapFrom(src => src.Date))
+                    .ForMember(x => x.Price, opt => opt.MapFrom(src => src.Price));
+                cfg.CreateMap<PurchaseDto, Manager>()
+                    .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.ManagerName));
+                cfg.CreateMap<PurchaseDto, Client>()
+                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
+            });
+
+            var product = UnitOfWork.ProductRepository.GetAll()
+                .FirstOrDefault(x => x.Id == purchaseDto.Id);
+            if (product == null)
+            {
+                product = Mapper.Map<PurchaseDto, Product>(purchaseDto);
+            }
+            else
+            {
+                
+            }
+
+            var manager = UnitOfWork.ManagerRepository.GetAll()
+                .FirstOrDefault(x => x.LastName == purchaseDto.ManagerName);
+            if (manager == null)
+            {
+                
+            }
+            else
+            {
+                
+            }
+
+            var client = UnitOfWork.ClientRepository.GetAll()
+                .FirstOrDefault(x => x.Name == purchaseDto.ClientName);
+            if (client == null)
+            {
+
+            }
+            else
+            {
+                
+            }
+
+            
+            return new OperationDetails(true, "successfull updated", "");
         }
 
-        public OperationDetails Delete(PurchaseDto saleDto)
+        public OperationDetails Delete(int id)
         {
             throw new System.NotImplementedException();
         }

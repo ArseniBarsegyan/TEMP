@@ -7,8 +7,8 @@ namespace UserStore.BLL.Interfaces
     public interface IPurchaseService
     {
         IEnumerable<PurchaseDto> GetAllSalesList();
-        OperationDetails Create(PurchaseDto saleDto);
-        OperationDetails Edit(PurchaseDto saleDto);
-        OperationDetails Delete(PurchaseDto saleDto);
+        OperationDetails Create(PurchaseDto purchaseDto);
+        OperationDetails Edit(PurchaseDto purchaseDto);
+        OperationDetails Delete(int id);
     }
 }
