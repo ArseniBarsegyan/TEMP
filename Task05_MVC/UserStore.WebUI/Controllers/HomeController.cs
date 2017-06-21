@@ -11,8 +11,14 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult Index()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OrdersList()
+        {
             var allOrders = _orderService.GetAllOrderList();
-            return View(allOrders);
+            return PartialView(allOrders);
         }
     }
 }

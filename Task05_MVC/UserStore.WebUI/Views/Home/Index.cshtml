@@ -5,34 +5,16 @@
     ViewBag.Title = "Index";
 }
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        All sales
+@using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
+{
+    <div class="form-group">
+        <input type="submit" class="btn btn-default" value="Show info"/>
     </div>
-    <table class="table table-striped">
-        <tr>
-            <th>Manager name</th>
-            <th>Product name</th>
-            <th>Product price</th>
-            <th>Purchase date</th>
-        </tr>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="3" class="text-center">There is no orders</td>
-            </tr>
-        }
-        else
-        {
-            foreach (var purchase in Model)
-            {
-                <tr>
-                    <td>@purchase.ManagerName</td>
-                    <td>@purchase.ProductName</td>
-                    <td>@purchase.Price</td>
-                    <td>@purchase.Date</td>
-                </tr>
-            }
-        }
-    </table>
+}
+
+<div id="results">
+
 </div>
+@Scripts.Render("~/scripts/jquery-1.10.2.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+@Scripts.Render("~/Scripts/Chart.js")
