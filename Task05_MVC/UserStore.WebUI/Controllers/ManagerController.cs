@@ -3,7 +3,6 @@ using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.BLL.Services;
 using UserStore.DAL.Repositories;
-using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -24,21 +23,16 @@ namespace UserStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ManagerModel model)
+        public ActionResult Create(ManagerDto managerDto)
         {
             if (ModelState.IsValid)
             {
-                var managerDto = new ManagerDto
-                {
-                    LastName = model.Name
-                };
-
                 var operationDetails = _managerService.Create(managerDto);
                 if (operationDetails.Succedeed)
                     return RedirectToAction("Index", "Manager");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
-            return View(model);
+            return View(managerDto);
         }
 
         public ActionResult Edit(int id)

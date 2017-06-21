@@ -53,11 +53,7 @@ namespace UserStore.BLL.Services
             var manager = UnitOfWork.ManagerRepository.GetAll().FirstOrDefault(x => x.LastName == orderDto.ManagerName);
             var product = UnitOfWork.ProductRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ProductName);
             var client = UnitOfWork.ClientRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ClientName);
-
-            if (manager == null)
-            {
-                manager = Mapper.Map<OrderDto, Manager>(orderDto);
-            }
+            
             if (product == null)
             {
                 product = Mapper.Map<OrderDto, Product>(orderDto);
@@ -71,8 +67,18 @@ namespace UserStore.BLL.Services
             order.Product = product;
             order.Client = client;
 
-            manager.Orders.Add(order);
-            UnitOfWork.ManagerRepository.Create(manager);
+            if (manager == null)
+            {
+                manager = Mapper.Map<OrderDto, Manager>(orderDto);
+                manager.Orders.Add(order);
+                UnitOfWork.ManagerRepository.Create(manager);
+            }
+            else
+            {
+                manager.Orders.Add(order);
+                UnitOfWork.ManagerRepository.Update(manager);
+            }
+            order.Manager = manager;
             UnitOfWork.Save();
 
             return new OperationDetails(true, "successfull create", "");

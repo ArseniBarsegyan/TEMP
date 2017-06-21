@@ -1,4 +1,4 @@
-﻿@model UserStore.WebUI.Models.ManagerModel
+﻿@model UserStore.BLL.DTO.ManagerDto
 
 @{
     ViewBag.Title = "Create manager";
@@ -11,7 +11,7 @@
 {
     <div class="form-group">
         <label>Manager name</label>
-        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
