@@ -68,9 +68,12 @@ namespace UserStore.BLL.Services
             var product = UnitOfWork.ProductRepository.GetAll()
                 .Include(x => x.Manager).Include(x => x.Client)
                 .FirstOrDefault(x => x.Manager.Id == id);
-            
-            product.Manager = null;
 
+            if (product != null)
+            {
+                UnitOfWork.ProductRepository.Delete(product.Id);
+            }
+           
             UnitOfWork.ManagerRepository.Delete(id);
             UnitOfWork.Save();
 
