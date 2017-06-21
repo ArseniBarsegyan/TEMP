@@ -10,7 +10,7 @@ namespace UserStore.WebUI.Controllers
     [Authorize(Roles = "admin")]
     public class ManagerController : Controller
     {
-        private IManagerService _managerService = new ManagerService(new IdentityUnitOfWork("DefaultConnection"));
+        private IManagerService _managerService = new ManagerService(new UnitOfWork("DefaultConnection"));
 
         public ActionResult Index()
         {

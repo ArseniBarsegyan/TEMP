@@ -2,7 +2,7 @@
 
 namespace UserStore.BLL.DTO
 {
-    public class PurchaseDto
+    public class OrderDto
     {
         public int Id { get; set; }
         public string ManagerName { get; set; }

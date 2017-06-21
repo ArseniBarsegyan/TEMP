@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Infrastructure;
 using UserStore.BLL.Interfaces;
@@ -11,9 +9,9 @@ namespace UserStore.BLL.Services
 {
     public class ManagerService : IManagerService
     {
-        private IdentityUnitOfWork UnitOfWork { get; }
+        private UnitOfWork UnitOfWork { get; }
 
-        public ManagerService(IdentityUnitOfWork unitOfWork)
+        public ManagerService(UnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
@@ -55,28 +53,11 @@ namespace UserStore.BLL.Services
 
         public OperationDetails Edit(ManagerDto managerDto)
         {
-            var manager = UnitOfWork.ManagerRepository.GetById(managerDto.Id);
-            manager.LastName = managerDto.LastName;
-            UnitOfWork.ManagerRepository.Update(manager);
-            UnitOfWork.Save();
-
             return new OperationDetails(true, "manager update successful", "");
         }
 
         public OperationDetails Delete(int id)
         {
-            var product = UnitOfWork.ProductRepository.GetAll()
-                .Include(x => x.Manager).Include(x => x.Client)
-                .FirstOrDefault(x => x.Manager.Id == id);
-
-            if (product != null)
-            {
-                UnitOfWork.ProductRepository.Delete(product.Id);
-            }
-           
-            UnitOfWork.ManagerRepository.Delete(id);
-            UnitOfWork.Save();
-
             return new OperationDetails(true, "manager delete successful", "");
         }
     }

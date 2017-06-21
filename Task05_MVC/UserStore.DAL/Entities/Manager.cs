@@ -6,10 +6,11 @@ namespace UserStore.DAL.Entities
     {
         public Manager()
         {
-            Products = new List<Product>();
+            Orders = new List<Order>();
         }
 
         public string LastName { get; set; }
-        public ICollection<Product> Products { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

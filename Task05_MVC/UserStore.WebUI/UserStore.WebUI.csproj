@@ -176,13 +176,13 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
-    <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManagerModel.cs" />
-    <Compile Include="Models\PurchaseCreateModel.cs" />
+    <Compile Include="Models\OrderCreateModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -226,11 +226,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
-    <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Purchase\Create.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Purchase\Edit.cshtml" />
-    <Content Include="Views\Purchase\Delete.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
+    <Content Include="Views\Order\Delete.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\Create.cshtml" />
     <Content Include="Views\Manager\Edit.cshtml" />

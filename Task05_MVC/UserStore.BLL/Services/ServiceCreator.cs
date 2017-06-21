@@ -7,7 +7,7 @@ namespace UserStore.BLL.Services
     {
         public IUserService CreateUserService(string connectionString)
         {
-            return new UserService(new IdentityUnitOfWork(connectionString));
+            return new UserService(new UnitOfWork(connectionString));
         }
     }
 }

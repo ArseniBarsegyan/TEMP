@@ -8,13 +8,13 @@ using UserStore.WebUI.Models;
 namespace UserStore.WebUI.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class PurchaseController : Controller
+    public class OrderController : Controller
     {
-        private IPurchaseService _purchaseService = new PurchaseService(new IdentityUnitOfWork("DefaultConnection"));
+        private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
 
         public ActionResult Index()
         {
-            var allSales = _purchaseService.GetAllSalesList();
+            var allSales = _orderService.GetAllOrderList();
             return View(allSales);
         }
 
@@ -24,11 +24,11 @@ namespace UserStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PurchaseCreateModel model)
+        public ActionResult Create(OrderCreateModel model)
         {
             if (ModelState.IsValid)
             {
-                var purchaseDto = new PurchaseDto
+                var orderDto = new OrderDto
                 {
                     ClientName = model.ClientName,
                     ManagerName = model.ManagerName,
@@ -37,9 +37,9 @@ namespace UserStore.WebUI.Controllers
                     Date = model.Date
                 };
 
-                var operationDetails = _purchaseService.Create(purchaseDto);
+                var operationDetails = _orderService.Create(orderDto);
                 if (operationDetails.Succedeed)
-                    return RedirectToAction("Index", "Purchase");
+                    return RedirectToAction("Index", "Order");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);
@@ -47,7 +47,7 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult Edit(int id)
         {
-            var purchaseDto = _purchaseService.GetPurchaseDtoById(id);
+            var purchaseDto = _orderService.GetOrderDtoById(id);
             if (purchaseDto != null)
             {
                 return View(purchaseDto);
@@ -56,21 +56,21 @@ namespace UserStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(PurchaseDto purchaseDto)
+        public ActionResult Edit(OrderDto orderDto)
         {
             if (ModelState.IsValid)
             {
-                var operationDetails = _purchaseService.Edit(purchaseDto);
+                var operationDetails = _orderService.Edit(orderDto);
                 if (operationDetails.Succedeed)
                     return RedirectToAction("Index");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
-            return View(purchaseDto);
+            return View(orderDto);
         }
 
         public ActionResult Delete(int id)
         {
-            var purchaseDto = _purchaseService.GetPurchaseDtoById(id);
+            var purchaseDto = _orderService.GetOrderDtoById(id);
             if (purchaseDto != null)
             {
                 return View(purchaseDto);
@@ -83,7 +83,7 @@ namespace UserStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var operationDetails = _purchaseService.Delete(id);
+                var operationDetails = _orderService.Delete(id);
                 if (operationDetails.Succedeed)
                     return RedirectToAction("Index");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);

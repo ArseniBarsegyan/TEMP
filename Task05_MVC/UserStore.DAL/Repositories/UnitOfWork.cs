@@ -8,12 +8,12 @@ using UserStore.DAL.Interfaces;
 
 namespace UserStore.DAL.Repositories
 {
-    public class IdentityUnitOfWork : IIdentityUnitOfWork
+    public class UnitOfWork : IIdentityUnitOfWork
     {
         private ApplicationContext _context;
         private bool _disposed;
 
-        public IdentityUnitOfWork(string connectionString)
+        public UnitOfWork(string connectionString)
         {
             _context = new ApplicationContext(connectionString);
             UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
@@ -21,6 +21,7 @@ namespace UserStore.DAL.Repositories
             ClientRepository = new GenericRepository<Client>(_context);
             ProductRepository = new GenericRepository<Product>(_context);
             ManagerRepository = new GenericRepository<Manager>(_context);
+            OrderRepository = new GenericRepository<Order>(_context);
         }
 
         public ApplicationUserManager UserManager { get; }
@@ -28,6 +29,7 @@ namespace UserStore.DAL.Repositories
         public GenericRepository<Client> ClientRepository { get; }
         public GenericRepository<Product> ProductRepository { get; }
         public GenericRepository<Manager> ManagerRepository { get; }
+        public GenericRepository<Order> OrderRepository { get; }
 
         public async Task SaveAsync()
         {

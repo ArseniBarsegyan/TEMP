@@ -1,13 +1,13 @@
 ﻿@using UserStore.BLL.DTO
 
-@model IEnumerable<PurchaseDto>
+@model IEnumerable<OrderDto>
 @{
     ViewBag.Title = "Index";
 }
 
 
 <a class="btn btn-primary" href="/Admin/Index/">Users</a>
-<a class="btn btn-primary" href="/Purchase/Create/">Create</a>
+<a class="btn btn-primary" href="/Order/Create/">Create</a>
 <a class="btn btn-primary" href="/Manager/Index/">Managers</a>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -39,8 +39,8 @@
                     <td>@purchase.ProductName</td>
                     <td>@purchase.Price</td>
                     <td>@purchase.Date</td>
-                    <td><p><a class="btn btn-default" href="/Purchase/Edit/@purchase.Id">Edit</a></p></td>
-                    <td><p><a class="btn btn-default" href="/Purchase/Delete/@purchase.Id">Delete</a></p></td>
+                    <td><p><a class="btn btn-default" href="/Order/Edit/@purchase.Id">Edit</a></p></td>
+                    <td><p><a class="btn btn-default" href="/Order/Delete/@purchase.Id">Delete</a></p></td>
                 </tr>
             }
         }

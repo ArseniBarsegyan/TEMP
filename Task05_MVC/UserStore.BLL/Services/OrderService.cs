@@ -1,0 +1,108 @@
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using AutoMapper;
+using UserStore.BLL.DTO;
+using UserStore.BLL.Infrastructure;
+using UserStore.BLL.Interfaces;
+using UserStore.DAL.Repositories;
+using UserStore.DAL.Entities;
+
+namespace UserStore.BLL.Services
+{
+    public class OrderService : IOrderService
+    {
+        private UnitOfWork UnitOfWork { get; }
+
+        public OrderService(UnitOfWork unitOfWork)
+        {
+            UnitOfWork = unitOfWork;
+        }
+
+        public OrderDto GetOrderDtoById(int id)
+        {
+            return GetAllOrderList().FirstOrDefault(x => x.Id == id);
+        }
+
+        public IEnumerable<OrderDto> GetAllOrderList()
+        {
+            var orderList = new List<OrderDto>();
+            var allOrders = UnitOfWork.OrderRepository.GetAll().Include(x => x.Client)
+                .Include(x => x.Manager).Include(x => x.Product);
+            
+            foreach (var order in allOrders)
+            {
+                var orderDto = new OrderDto()
+                {
+                    Id = order.Id,
+                    ClientName = order.Client.Name,
+                    ManagerName = order.Manager.LastName,
+                    ProductName = order.Product.Name,
+                    Date = order.Date,
+                    Price = order.Product.Price
+                };
+                orderList.Add(orderDto);
+            }
+            return orderList;
+        }
+
+        public OperationDetails Create(OrderDto orderDto)
+        {
+            InitializeMapper();
+            var order = Mapper.Map<OrderDto, Order>(orderDto);
+            var manager = UnitOfWork.ManagerRepository.GetAll().FirstOrDefault(x => x.LastName == orderDto.ManagerName);
+            var product = UnitOfWork.ProductRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ProductName);
+            var client = UnitOfWork.ClientRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ClientName);
+
+            if (manager == null)
+            {
+                manager = Mapper.Map<OrderDto, Manager>(orderDto);
+            }
+            if (product == null)
+            {
+                product = Mapper.Map<OrderDto, Product>(orderDto);
+                UnitOfWork.ProductRepository.Create(product);
+            }
+            if (client == null)
+            {
+                client = Mapper.Map<OrderDto, Client>(orderDto);
+                UnitOfWork.ClientRepository.Create(client);
+            }
+            order.Product = product;
+            order.Client = client;
+
+            manager.Orders.Add(order);
+            UnitOfWork.ManagerRepository.Create(manager);
+            UnitOfWork.Save();
+
+            return new OperationDetails(true, "successfull created", "");
+        }
+
+        public OperationDetails Edit(OrderDto orderDto)
+        {
+            
+            return new OperationDetails(true, "successfull updated", "");
+        }
+
+        public OperationDetails Delete(int id)
+        {
+            return new OperationDetails(true, "successfull deleted", "");
+        }
+
+        private void InitializeMapper()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<OrderDto, Product>()
+                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ProductName))
+                    .ForMember(x => x.Price, opt => opt.MapFrom(src => src.Price));
+                cfg.CreateMap<OrderDto, Manager>()
+                    .ForMember(x => x.LastName, opt => opt.MapFrom(src => src.ManagerName));
+                cfg.CreateMap<OrderDto, Client>()
+                    .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
+                cfg.CreateMap<OrderDto, Order>()
+                    .ForMember(x => x.Date, opt => opt.MapFrom(src => src.Date));
+            });
+        }
+    }
+}

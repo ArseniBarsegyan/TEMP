@@ -60,12 +60,13 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Manager.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\Order.cs" />
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Interfaces\IIdentityUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
-    <Compile Include="Repositories\IdentityUnitOfWork.cs" />
+    <Compile Include="Repositories\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
