@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-<a class="btn btn-primary" href="/Purchase/Create/">Create</a>
+<a class="btn btn-primary" href="/Manager/Create/">Create</a>
 
 <div class="panel panel-primary">
 <div class="panel-heading">
@@ -29,8 +29,8 @@
             <tr>
                 <td>@manager.Id</td>
                 <td>@manager.LastName</td>
-                <td><p><a class="btn btn-default" href="/Purchase/Edit/@manager.Id">Edit</a></p></td>
-                <td><p><a class="btn btn-default" href="/Purchase/Delete/@manager.Id">Delete</a></p></td>
+                <td><p><a class="btn btn-default" href="/Manager/Edit/@manager.Id">Edit</a></p></td>
+                <td><p><a class="btn btn-default" href="/Manager/Delete/@manager.Id">Delete</a></p></td>
             </tr>
         }
     }
