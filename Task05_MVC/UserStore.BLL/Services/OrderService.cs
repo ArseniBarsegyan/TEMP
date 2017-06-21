@@ -75,18 +75,45 @@ namespace UserStore.BLL.Services
             UnitOfWork.ManagerRepository.Create(manager);
             UnitOfWork.Save();
 
-            return new OperationDetails(true, "successfull created", "");
+            return new OperationDetails(true, "successfull create", "");
         }
 
         public OperationDetails Edit(OrderDto orderDto)
         {
+            InitializeMapper();
+            var order = UnitOfWork.OrderRepository.GetById(orderDto.Id);
+            var manager = UnitOfWork.ManagerRepository.GetAll().FirstOrDefault(x => x.LastName == orderDto.ManagerName);
+            var product = UnitOfWork.ProductRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ProductName);
+            var client = UnitOfWork.ClientRepository.GetAll().FirstOrDefault(x => x.Name == orderDto.ClientName);
+
+            if (manager == null)
+            {
+                manager = Mapper.Map<OrderDto, Manager>(orderDto);
+                UnitOfWork.ManagerRepository.Create(manager);
+            }
+            if (product == null)
+            {
+                product = Mapper.Map<OrderDto, Product>(orderDto);
+                UnitOfWork.ProductRepository.Create(product);
+            }
+            if (client == null)
+            {
+                client = Mapper.Map<OrderDto, Client>(orderDto);
+                UnitOfWork.ClientRepository.Create(client);
+            }
+            order.Product = product;
+            order.Client = client;
+            order.Manager = manager;
             
-            return new OperationDetails(true, "successfull updated", "");
+            UnitOfWork.OrderRepository.Update(order);
+            UnitOfWork.Save();
+
+            return new OperationDetails(true, "successfull update", "");
         }
 
         public OperationDetails Delete(int id)
         {
-            return new OperationDetails(true, "successfull deleted", "");
+            return new OperationDetails(true, "successfull delete", "");
         }
 
         private void InitializeMapper()
