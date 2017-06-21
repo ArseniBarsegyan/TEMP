@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.BLL.Services;
@@ -61,10 +60,12 @@ namespace UserStore.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _purchaseService.Edit(purchaseDto);
-                return RedirectToAction("Index");
+                var operationDetails = _purchaseService.Edit(purchaseDto);
+                if (operationDetails.Succedeed)
+                    return RedirectToAction("Index");
+                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
-            return View();
+            return View(purchaseDto);
         }
 
         public ActionResult Delete(int id)
@@ -80,8 +81,14 @@ namespace UserStore.WebUI.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            _purchaseService.Delete(id);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var operationDetails = _purchaseService.Delete(id);
+                if (operationDetails.Succedeed)
+                    return RedirectToAction("Index");
+                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+            }
+            return View();
         }
     }
 }
