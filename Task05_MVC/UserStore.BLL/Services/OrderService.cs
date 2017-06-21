@@ -113,6 +113,9 @@ namespace UserStore.BLL.Services
 
         public OperationDetails Delete(int id)
         {
+            UnitOfWork.OrderRepository.Delete(id);
+            UnitOfWork.Save();;
+
             return new OperationDetails(true, "successfull delete", "");
         }
 
