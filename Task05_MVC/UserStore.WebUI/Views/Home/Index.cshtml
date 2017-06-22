@@ -8,21 +8,21 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['bar'] });
-        google.charts.setOnLoadCallback(drawChart);
+        //google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                ['Manager', 'Product', 'Client', 'Price'],
-                ['2014', 'Car', 'Oleg', 200],
-                ['2015', 'SuperCar', 'Vitya', 250],
-                ['2016', 'PC', 'Vasya', 300],
-                ['2017', 'Sport ball', 'Alex', 350]
+                ['Manager', 'Amount', 'Total price', 'Frequency per day'],
+                ['Arseni', 10, 430, 1],
+                ['Arseni2', 8, 560, 2],
+                ['Arseni3', 8, 700, 2],
+                ['Arseni4', 12, 430, 1]
             ]);
 
             var options = {
                 chart: {
                     title: 'Orders details',
-                    subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                    subtitle: 'Sale amount, Total price, and frequency'
                 }
             };
 
@@ -37,6 +37,7 @@
 {
     <div class="form-group">
         <input type="submit" class="btn btn-default" value="Show info"/>
+        <input type="button" id="chartBuilder" class="btn btn-default" value="Show chart" onclick="drawChart()"/>
     </div>
 }
 
