@@ -4,6 +4,34 @@
 @{
     ViewBag.Title = "Index";
 }
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Manager', 'Product', 'Client', 'Price'],
+                ['2014', 'Car', 'Oleg', 200],
+                ['2015', 'SuperCar', 'Vitya', 250],
+                ['2016', 'PC', 'Vasya', 300],
+                ['2017', 'Sport ball', 'Alex', 350]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Orders details',
+                    subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+</head>
 
 @using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
 {
@@ -12,9 +40,11 @@
     </div>
 }
 
+<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+
 <div id="results">
 
 </div>
+
 @Scripts.Render("~/scripts/jquery-1.10.2.js")
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
-@Scripts.Render("~/Scripts/Chart.js")
