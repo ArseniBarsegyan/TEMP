@@ -184,6 +184,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManagerModel.cs" />
     <Compile Include="Models\OrderCreateModel.cs" />
+    <Compile Include="Models\OrderListViewModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,10 +1,11 @@
-﻿@using UserStore.BLL.DTO
+﻿@using UserStore.WebUI.Models
 
-@model IEnumerable<OrderDto>
+@model OrderListViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of orders";
 }
-<head>
+
+@*<head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['bar'] });
@@ -31,21 +32,75 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
     </script>
-</head>
+</head>*@
 
-@using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
+<form method="get">
+    <div class="form-group">
+        <label class="control-label">Manager:</label>
+        @Html.DropDownList("manager", Model.Managers,
+            new { @class = "form-control" })
+
+        <label class="control-label">Product:</label>
+        @Html.DropDownList("product", Model.Products,
+            new { @class = "form-control" })
+        
+        <label class="control-label">Price:</label>
+        @Html.DropDownList("price", Model.Prices,
+            new { @class = "form-control" })
+        
+        <label class="control-label">Date:</label>
+        @Html.DropDownList("date", Model.Dates,
+            new { @class = "form-control" })
+    </div>
+    <input type="submit" value="Filter" class="btn btn-default" />
+</form>
+
+<table class="table table-striped">
+    <tr>
+        <th>Manager name</th>
+        <th>Product name</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Orders)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+        </tr>
+    }
+</table>
+
+@*@using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
 {
     <div class="form-group">
-        <input type="submit" class="btn btn-default" value="Show info"/>
-        <input type="button" id="chartBuilder" class="btn btn-default" value="Show chart" onclick="drawChart()"/>
-    </div>
-}
+        <input type="text" name="name" aria-label="Enter name" />
+        
+        
 
-<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+        <input type="submit" class="btn btn-default" value="Show info"/>
+        @ViewBag.Managers
+        <input type="button" id="chartBuilder" class="btn btn-default" value="Build chart" onclick="drawChart()"/>
+    </div>
+}*@
+
+@*<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 
 <div id="results">
 
 </div>
 
 @Scripts.Render("~/scripts/jquery-1.10.2.js")
-@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")*@
