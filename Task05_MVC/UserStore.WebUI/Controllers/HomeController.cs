@@ -24,7 +24,7 @@ namespace UserStore.WebUI.Controllers
             var dates = orders.Select(x => x.Date).Distinct().ToList();
             dates.Insert(0, DateTime.Today);
             var prices = orders.Select(x => x.Price).Distinct().ToList();
-            prices.Insert(0, 0);
+            prices.Insert(0, 0m);
 
             if (!string.IsNullOrEmpty(manager) && !manager.Equals("All"))
             {
@@ -35,7 +35,8 @@ namespace UserStore.WebUI.Controllers
                 orders = orders.Where(x => x.ProductName == product);
             }
 
-            if (price != null && price != 0)
+            //WHY THIS DOESN'T WORKS???
+            if (price != null && price != 0m)
             {
                 orders = orders.Where(x => x.Price == price);
             }
