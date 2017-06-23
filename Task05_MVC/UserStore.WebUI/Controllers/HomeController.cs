@@ -12,30 +12,20 @@ namespace UserStore.WebUI.Controllers
     public class HomeController : Controller
     {
         private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
-        public int PageSize = 2;
-
-        public ViewResult List(int page = 1)
-        {
-            var ordersListViewModel = new OrderListViewModel
-            {
-                Orders = _orderService.GetAllOrderList()
-                    .OrderBy(x => x.Id)
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize),
-                PagingInfo = new PagingInfo()
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = PageSize,
-                    TotalItems = _orderService.GetAllOrderList().Count()
-                }
-            };
-            return View(ordersListViewModel);
-        }
+        public int PageSize = 2;        
 
         public ActionResult Index(string manager, string product, string date, decimal? fromValue
-            , decimal? toValue)
+            , decimal? toValue, int page = 1)
         {
-            var orders = _orderService.GetAllOrderList();
+            var pageSize = 10;
+            var elementsPerPage = _orderService.GetAllOrderList().Skip((page - 1) * pageSize).Take(pageSize);
+            var pageInfo = new PagingInfo
+            {
+                CurrentPage = page,
+                ItemsPerPage = PageSize,
+                TotalItems = elementsPerPage.Count()
+            };
+            var orders = elementsPerPage;
 
             var managers = orders.Select(x => x.ManagerName).Distinct().ToList();
             managers.Insert(0, "All");
@@ -73,6 +63,7 @@ namespace UserStore.WebUI.Controllers
                 Managers = new SelectList(managers),
                 Products = new SelectList(products),
                 Dates = new SelectList(dates),
+                PagingInfo = pageInfo
             };
 
             return View(ordersListViewModel);

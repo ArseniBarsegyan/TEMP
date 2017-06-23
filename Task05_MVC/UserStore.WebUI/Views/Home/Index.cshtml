@@ -87,6 +87,10 @@
     }
 </table>
 
+<div class="btn-group">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+</div>
+
 @*@using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
 {
     <div class="form-group">
