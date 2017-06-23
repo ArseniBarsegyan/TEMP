@@ -1,0 +1,23 @@
+﻿@model UserStore.WebUI.Models.OrderListViewModel
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+@foreach (var p in Model.Orders)
+{
+    <div class="item">
+        @p.ProductName
+        @p.ClientName
+        @p.Date.ToString("d")
+        @p.ManagerName
+        @p.Price
+    </div>
+}
+
+<div class="pager">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x}))
+</div>
+

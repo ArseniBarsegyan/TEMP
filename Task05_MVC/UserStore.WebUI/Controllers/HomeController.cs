@@ -12,6 +12,25 @@ namespace UserStore.WebUI.Controllers
     public class HomeController : Controller
     {
         private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
+        public int PageSize = 2;
+
+        public ViewResult List(int page = 1)
+        {
+            var ordersListViewModel = new OrderListViewModel
+            {
+                Orders = _orderService.GetAllOrderList()
+                    .OrderBy(x => x.Id)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = _orderService.GetAllOrderList().Count()
+                }
+            };
+            return View(ordersListViewModel);
+        }
 
         public ActionResult Index(string manager, string product, string date)
         {

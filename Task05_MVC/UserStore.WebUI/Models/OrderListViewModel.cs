@@ -12,5 +12,6 @@ namespace UserStore.WebUI.Models
         public SelectList Products { get; set; }
         public SelectList Dates { get; set; }
         public decimal FromValue { get; set; }
+        public PagingInfo PagingInfo { get; set; }
     }
 }
