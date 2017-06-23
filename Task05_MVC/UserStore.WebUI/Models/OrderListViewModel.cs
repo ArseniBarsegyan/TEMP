@@ -10,6 +10,5 @@ namespace UserStore.WebUI.Models
         public SelectList Managers { get; set; }
         public SelectList Products { get; set; }
         public SelectList Dates { get; set; }
-        public SelectList Prices { get; set; }
     }
 }

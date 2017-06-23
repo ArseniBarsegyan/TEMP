@@ -13,7 +13,7 @@ namespace UserStore.WebUI.Controllers
     {
         private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
 
-        public ActionResult Index(string manager, string product, decimal? price, DateTime? date = null)
+        public ActionResult Index(string manager, string product, string date)
         {
             var orders = _orderService.GetAllOrderList();
 
@@ -21,8 +21,9 @@ namespace UserStore.WebUI.Controllers
             managers.Insert(0, "All");
             var products = orders.Select(x => x.ProductName).Distinct().ToList();
             products.Insert(0, "All");
-            var dates = orders.Select(x => x.Date).Distinct().ToList();
-            dates.Insert(0, DateTime.Today);
+            var dates = orders.Select(x => x.Date.ToString("d")).Distinct().ToList();
+            dates.Insert(0, "All");
+            
             var prices = orders.Select(x => x.Price).Distinct().ToList();
             prices.Insert(0, 0m);
 
@@ -30,20 +31,15 @@ namespace UserStore.WebUI.Controllers
             {
                 orders = orders.Where(x => x.ManagerName == manager);
             }
+
             if (!string.IsNullOrEmpty(product) && !product.Equals("All"))
             {
                 orders = orders.Where(x => x.ProductName == product);
             }
 
-            //WHY THIS DOESN'T WORKS???
-            if (price != null && price != 0m)
+            if (!string.IsNullOrEmpty(date) && !date.Equals("All"))
             {
-                orders = orders.Where(x => x.Price == price);
-            }
-
-            if (!date.HasValue) 
-            {
-                orders = orders.Where(x => x.Date == DateTime.Today);
+                orders = orders.Where(x => x.Date.ToString("d") == date);
             }
 
             var ordersListViewModel = new OrderListViewModel
@@ -52,7 +48,6 @@ namespace UserStore.WebUI.Controllers
                 Managers = new SelectList(managers),
                 Products = new SelectList(products),
                 Dates = new SelectList(dates),
-                Prices = new SelectList(prices)
             };
 
             return View(ordersListViewModel);
