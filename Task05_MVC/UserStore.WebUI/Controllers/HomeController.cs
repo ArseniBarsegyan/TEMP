@@ -32,7 +32,8 @@ namespace UserStore.WebUI.Controllers
             return View(ordersListViewModel);
         }
 
-        public ActionResult Index(string manager, string product, string date)
+        public ActionResult Index(string manager, string product, string date, decimal? fromValue
+            , decimal? toValue)
         {
             var orders = _orderService.GetAllOrderList();
 
@@ -60,6 +61,11 @@ namespace UserStore.WebUI.Controllers
             {
                 orders = orders.Where(x => x.Date.ToString("d") == date);
             }
+
+            if (fromValue != null && fromValue != 0)
+            {
+                orders = orders.Where(x => x.Price >= fromValue && x.Price <= toValue);
+            }            
 
             var ordersListViewModel = new OrderListViewModel
             {
