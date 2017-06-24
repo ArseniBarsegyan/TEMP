@@ -8,7 +8,7 @@ using UserStore.DAL.Interfaces;
 
 namespace UserStore.DAL.Repositories
 {
-    public class UnitOfWork : IIdentityUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationContext _context;
         private bool _disposed;

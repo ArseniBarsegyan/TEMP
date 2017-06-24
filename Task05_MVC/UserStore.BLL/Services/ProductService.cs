@@ -5,15 +5,15 @@ using UserStore.BLL.DTO;
 using UserStore.BLL.Infrastructure;
 using UserStore.BLL.Interfaces;
 using UserStore.DAL.Entities;
-using UserStore.DAL.Repositories;
+using UserStore.DAL.Interfaces;
 
 namespace UserStore.BLL.Services
 {
     public class ProductService : IProductService
     {
-        private UnitOfWork UnitOfWork { get; }
+        private IUnitOfWork UnitOfWork { get; }
 
-        public ProductService(UnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

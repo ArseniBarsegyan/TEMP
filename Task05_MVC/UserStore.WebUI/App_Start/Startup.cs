@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Ninject;
 using Owin;
 using UserStore.BLL.Interfaces;
 using UserStore.BLL.Services;
+using UserStore.DAL.Interfaces;
+using UserStore.DAL.Repositories;
 
 [assembly: OwinStartup(typeof(UserStore.WebUI.Startup))]
 namespace UserStore.WebUI
 {
     public class Startup
     {
-        readonly IServiceCreator _serviceCreator = new ServiceCreator();
-
         public void Configuration(IAppBuilder app)
         {
             app.CreatePerOwinContext(CreateUserService);
@@ -25,7 +26,16 @@ namespace UserStore.WebUI
 
         private IUserService CreateUserService()
         {
-            return _serviceCreator.CreateUserService("DefaultConnection");
+            IKernel kernel = new StandardKernel();
+
+            kernel.Bind<IUserService>().To<UserService>();
+
+            kernel.Bind<IUnitOfWork>()
+                .To<UnitOfWork>()
+                .WhenInjectedInto<UserService>()
+                .WithConstructorArgument("DefaultConnection");
+
+            return kernel.TryGet<IUserService>();
         }
     }
 }

@@ -1,15 +1,18 @@
 ﻿using System.Web.Mvc;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.BLL.Services;
-using UserStore.DAL.Repositories;
 
 namespace UserStore.WebUI.Controllers
 {
     [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
-        private IProductService _productService = new ProductService(new UnitOfWork("DefaultConnection"));
+        private IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
 
         public ActionResult Index()
         {

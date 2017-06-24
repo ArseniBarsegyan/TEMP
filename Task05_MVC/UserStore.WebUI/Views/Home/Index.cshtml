@@ -5,7 +5,7 @@
     ViewBag.Title = "List of orders";
 }
 
-@*<head>
+<head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['bar'] });
@@ -32,7 +32,7 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
     </script>
-</head>*@
+</head>
 
 <form method="get">
     <div class="form-group">
@@ -95,20 +95,18 @@
 {
     <div class="form-group">
         <input type="text" name="name" aria-label="Enter name" />
-        
-        
-
         <input type="submit" class="btn btn-default" value="Show info"/>
         @ViewBag.Managers
         <input type="button" id="chartBuilder" class="btn btn-default" value="Build chart" onclick="drawChart()"/>
     </div>
 }*@
 
-@*<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+<input type="button" id="chartBuilder" class="btn btn-success" value="Build chart" onclick="drawChart()" />
+<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 
 <div id="results">
 
 </div>
 
 @Scripts.Render("~/scripts/jquery-1.10.2.js")
-@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")*@
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")

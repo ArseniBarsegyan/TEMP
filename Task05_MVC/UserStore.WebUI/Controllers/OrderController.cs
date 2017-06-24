@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.BLL.Services;
-using UserStore.DAL.Repositories;
 using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
@@ -10,7 +8,12 @@ namespace UserStore.WebUI.Controllers
     [Authorize(Roles = "admin")]
     public class OrderController : Controller
     {
-        private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
+        private IOrderService _orderService;
+
+        public OrderController(IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
 
         public ActionResult Index()
         {

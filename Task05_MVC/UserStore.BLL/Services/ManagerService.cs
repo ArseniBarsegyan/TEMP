@@ -5,15 +5,15 @@ using UserStore.BLL.DTO;
 using UserStore.BLL.Infrastructure;
 using UserStore.BLL.Interfaces;
 using UserStore.DAL.Entities;
-using UserStore.DAL.Repositories;
+using UserStore.DAL.Interfaces;
 
 namespace UserStore.BLL.Services
 {
     public class ManagerService : IManagerService
     {
-        private UnitOfWork UnitOfWork { get; }
+        private IUnitOfWork UnitOfWork { get; }
 
-        public ManagerService(UnitOfWork unitOfWork)
+        public ManagerService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

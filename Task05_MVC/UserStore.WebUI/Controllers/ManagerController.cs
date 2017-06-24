@@ -1,15 +1,18 @@
 ﻿using System.Web.Mvc;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.BLL.Services;
-using UserStore.DAL.Repositories;
 
 namespace UserStore.WebUI.Controllers
 {
     [Authorize(Roles = "admin")]
     public class ManagerController : Controller
     {
-        private IManagerService _managerService = new ManagerService(new UnitOfWork("DefaultConnection"));
+        private IManagerService _managerService;
+
+        public ManagerController(IManagerService managerService)
+        {
+            _managerService = managerService;
+        }
 
         public ActionResult Index()
         {

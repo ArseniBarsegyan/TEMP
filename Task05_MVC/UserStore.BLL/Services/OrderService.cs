@@ -5,16 +5,16 @@ using AutoMapper;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Infrastructure;
 using UserStore.BLL.Interfaces;
-using UserStore.DAL.Repositories;
 using UserStore.DAL.Entities;
+using UserStore.DAL.Interfaces;
 
 namespace UserStore.BLL.Services
 {
     public class OrderService : IOrderService
     {
-        private UnitOfWork UnitOfWork { get; }
+        private IUnitOfWork UnitOfWork { get; }
 
-        public OrderService(UnitOfWork unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }

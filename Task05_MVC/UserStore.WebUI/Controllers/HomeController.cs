@@ -1,21 +1,28 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using UserStore.BLL.Interfaces;
-using UserStore.BLL.Services;
-using UserStore.DAL.Repositories;
 using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private IOrderService _orderService = new OrderService(new UnitOfWork("DefaultConnection"));
+        private IOrderService _orderService;
+        private IManagerService _managerService;
+
+        public HomeController(IOrderService orderService, IManagerService managerService)
+        {
+            _orderService = orderService;
+            _managerService = managerService;
+        }
+
         public int PageSize = 2;        
 
         public ActionResult Index(string manager, string product, string date, decimal? fromValue
             , decimal? toValue, int page = 1)
         {
-            var pageSize = 10;
+            var pageSize = 4;
             var elementsPerPage = _orderService.GetAllOrderList().Skip((page - 1) * pageSize).Take(pageSize);
             var pageInfo = new PagingInfo
             {
@@ -66,5 +73,28 @@ namespace UserStore.WebUI.Controllers
 
             return View(ordersListViewModel);
         }
+
+        //private IEnumerable<ManagerViewModel> GetData()
+        //{
+        //    var allOrders = _orderService.GetAllOrderList();
+            
+        //    var managersViewsModels = _managerService.GetAllManagersList()
+        //        .Select(x => x.LastName)
+        //        .Select(name => new ManagerViewModel
+        //    {
+        //        Name = name
+        //    }).ToList();
+
+
+        //    for (var i = 0; i < managersViewsModels.Count; i++)
+        //    {
+        //        foreach (var order in allOrders)
+        //        {
+        //            if (managersViewsModels[i].Name != order.ManagerName) continue;
+        //            managersViewsModels[i].OrdersCount++;
+        //            managersViewsModels[i].TotalPrice += order.Price;
+        //        }
+        //    }
+        //}
     }
 }
