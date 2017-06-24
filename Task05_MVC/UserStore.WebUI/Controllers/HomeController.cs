@@ -68,17 +68,5 @@ namespace UserStore.WebUI.Controllers
 
             return View(ordersListViewModel);
         }
-
-        [HttpPost]
-        public ActionResult OrdersList()
-        {
-            var allOrders = _orderService.GetAllOrderList();
-            
-            ViewBag.Managers = allOrders.Select(order => order.ManagerName);
-            ViewBag.Products = allOrders.Select(order => order.ProductName);
-            ViewBag.Dates = allOrders.Select(order => order.Date);
-
-            return PartialView(allOrders);
-        }
     }
 }
