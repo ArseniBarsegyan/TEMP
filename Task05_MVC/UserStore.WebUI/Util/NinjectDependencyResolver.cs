@@ -45,17 +45,11 @@ namespace UserStore.WebUI.Util
 
             kernel.Bind<IUnitOfWork>()
                 .To<UnitOfWork>()
-                .WhenInjectedInto<UserService>()
-                .WithConstructorArgument("DefaultConnection");
-
-            kernel.Bind<IUnitOfWork>()
-                .To<UnitOfWork>()
                 .WhenInjectedInto<ManagerService>()
                 .WithConstructorArgument("DefaultConnection");
 
             kernel.Bind<IOrderService>().To<OrderService>();
             kernel.Bind<IProductService>().To<ProductService>();
-            kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IManagerService>().To<ManagerService>();
         }
     }
