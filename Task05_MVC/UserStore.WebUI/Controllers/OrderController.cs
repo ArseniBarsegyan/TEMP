@@ -2,6 +2,7 @@
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
+using UserStore.WebUI.ConstantStorage;
 using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers
@@ -18,8 +19,8 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult Index(int? page)
         {
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
+            var pageSize = ConstantStorage.ConstantStorage.pageSize;
+            var pageNumber = (page ?? 1);
             var allOrders = _orderService.GetAllOrderList();
             return View(allOrders.ToPagedList(pageNumber, pageSize));
         }

@@ -12,7 +12,7 @@ namespace UserStore.WebUI.Models
         public string ManagerName { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "The length of this line must be at from 3 to 50 symbols")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "The length of this line must be from 2 to 50 symbols")]
         public string ProductName { get; set; }
 
         [Required]

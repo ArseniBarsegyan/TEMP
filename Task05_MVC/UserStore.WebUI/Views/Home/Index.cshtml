@@ -1,6 +1,4 @@
-﻿@using UserStore.WebUI.Models
-
-@model OrderListViewModel
+﻿@model UserStore.WebUI.Models.OrderListViewModel
 @{
     ViewBag.Title = "List of orders";
 }
@@ -29,7 +27,7 @@
             var options = {
                 chart: {
                     title: 'Orders details',
-                    subtitle: 'Sale amount, Total price, and frequency'
+                    subtitle: 'Orders amount, Total price'
                 }
             };
 
@@ -39,6 +37,8 @@
         }
     </script>
 </head>
+
+<input type="button" id="chartBuilder" class="btn btn-success" value="Build chart" onclick="onButtonClick()" />
 
 <form method="get">
     <div class="form-group">
@@ -63,51 +63,8 @@
     <input type="submit" value="Filter" class="btn btn-default"/>
 </form>
 
+@Html.Partial("OrdersSummary", Model.Orders)
 
-
-<table class="table table-striped">
-    <tr>
-        <th>Manager name</th>
-        <th>Product name</th>
-        <th>Date</th>
-        <th>Price</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Orders)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-        </tr>
-    }
-</table>
-
-<div class="btn-group">
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
-</div>
-
-@*@using (Ajax.BeginForm("OrdersList", new AjaxOptions { UpdateTargetId = "results" }))
-{
-    <div class="form-group">
-        <input type="text" name="name" aria-label="Enter name" />
-        <input type="submit" class="btn btn-default" value="Show info"/>
-        @ViewBag.Managers
-        <input type="button" id="chartBuilder" class="btn btn-default" value="Build chart" onclick="drawChart()"/>
-    </div>
-}*@
-
-<input type="button" id="chartBuilder" class="btn btn-success" value="Build chart" onclick="onButtonClick()" />
 <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 
 <div id="results">
