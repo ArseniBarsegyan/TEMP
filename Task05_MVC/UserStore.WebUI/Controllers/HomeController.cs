@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using UserStore.BLL.Interfaces;
 using UserStore.WebUI.Models;
@@ -74,27 +73,27 @@ namespace UserStore.WebUI.Controllers
             return View(ordersListViewModel);
         }
 
-        //private IEnumerable<ManagerViewModel> GetData()
-        //{
-        //    var allOrders = _orderService.GetAllOrderList();
-            
-        //    var managersViewsModels = _managerService.GetAllManagersList()
-        //        .Select(x => x.LastName)
-        //        .Select(name => new ManagerViewModel
-        //    {
-        //        Name = name
-        //    }).ToList();
+        public ActionResult GetManagersData()
+        {
+            var allOrders = _orderService.GetAllOrderList();
 
+            var managersViewsModels = _managerService.GetAllManagersList()
+                .Select(x => x.LastName)
+                .Select(name => new ManagerViewModel
+                {
+                    Name = name
+                }).ToList();
 
-        //    for (var i = 0; i < managersViewsModels.Count; i++)
-        //    {
-        //        foreach (var order in allOrders)
-        //        {
-        //            if (managersViewsModels[i].Name != order.ManagerName) continue;
-        //            managersViewsModels[i].OrdersCount++;
-        //            managersViewsModels[i].TotalPrice += order.Price;
-        //        }
-        //    }
-        //}
+            foreach (var t in managersViewsModels)
+            {
+                foreach (var order in allOrders)
+                {
+                    if (t.Name != order.ManagerName) continue;
+                    t.OrdersCount++;
+                    t.TotalPrice += order.Price;
+                }
+            }
+            return Json(managersViewsModels, JsonRequestBehavior.AllowGet);
+        }
     }
 }

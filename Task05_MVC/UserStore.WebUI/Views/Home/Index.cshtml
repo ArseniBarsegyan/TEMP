@@ -9,16 +9,22 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', { 'packages': ['bar'] });
-        //google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Manager', 'Amount', 'Total price', 'Frequency per day'],
-                ['Arseni', 10, 430, 1],
-                ['Arseni2', 8, 560, 2],
-                ['Arseni3', 8, 700, 2],
-                ['Arseni4', 12, 430, 1]
-            ]);
+        function onButtonClick() {
+            var actionUrl = '@Url.Action("GetManagersData", "Home")';
+            $.getJSON(actionUrl, drawChart);
+        }
+
+        function drawChart(response) {
+            var objs = [];
+            objs.push(['Manager', 'Orders count', 'Total price']);
+
+            for (var i = 0; i < response.length; i++) {
+                var obj = [response[i].Name, response[i].OrdersCount, response[i].TotalPrice];
+                objs.push(obj);
+            }
+
+            var data = google.visualization.arrayToDataTable(objs);
 
             var options = {
                 chart: {
@@ -101,7 +107,7 @@
     </div>
 }*@
 
-<input type="button" id="chartBuilder" class="btn btn-success" value="Build chart" onclick="drawChart()" />
+<input type="button" id="chartBuilder" class="btn btn-success" value="Build chart" onclick="onButtonClick()" />
 <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 
 <div id="results">

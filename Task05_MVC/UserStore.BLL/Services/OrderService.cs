@@ -39,7 +39,7 @@ namespace UserStore.BLL.Services
                     ManagerName = order.Manager.LastName,
                     ProductName = order.Product.Name,
                     Date = order.Date,
-                    Price = order.Product.Price
+                    Price = order.OrderTotalPrice
                 };
                 orderList.Add(orderDto);
             }
@@ -107,6 +107,7 @@ namespace UserStore.BLL.Services
                 client = Mapper.Map<OrderDto, Client>(orderDto);
                 UnitOfWork.ClientRepository.Create(client);
             }
+            order.OrderTotalPrice = orderDto.Price;
             order.Date = orderDto.Date;
             order.Product = product;
             order.Client = client;
@@ -138,7 +139,8 @@ namespace UserStore.BLL.Services
                 cfg.CreateMap<OrderDto, Client>()
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.ClientName));
                 cfg.CreateMap<OrderDto, Order>()
-                    .ForMember(x => x.Date, opt => opt.MapFrom(src => src.Date));
+                    .ForMember(x => x.Date, opt => opt.MapFrom(src => src.Date))
+                    .ForMember(x => x.OrderTotalPrice, opt => opt.MapFrom(src => src.Price));
             });
         }
     }
