@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.WebUI.Models;
@@ -15,10 +16,12 @@ namespace UserStore.WebUI.Controllers
             _orderService = orderService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
             var allOrders = _orderService.GetAllOrderList();
-            return View(allOrders);
+            return View(allOrders.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()

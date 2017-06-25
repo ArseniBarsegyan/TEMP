@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 
@@ -14,10 +15,12 @@ namespace UserStore.WebUI.Controllers
             _managerService = managerService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
             var allManagers = _managerService.GetAllManagersList();
-            return View(allManagers);
+            return View(allManagers.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()

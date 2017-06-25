@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 
@@ -14,9 +15,11 @@ namespace UserStore.WebUI.Controllers
         private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(UserService.GetAllUsersList());
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(UserService.GetAllUsersList().ToPagedList(pageNumber, pageSize));
         }
         
         public ActionResult Edit(string id)

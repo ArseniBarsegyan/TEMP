@@ -1,10 +1,13 @@
-﻿@using UserStore.BLL.DTO
-
-@model IEnumerable<UserDto>
+﻿@model PagedList.IPagedList<UserStore.BLL.DTO.UserDto>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
 }
+
+<a class="btn btn-default" href="/Order/Index/">Orders</a>
+<a class="btn btn-default" href="/Manager/Index/">Managers</a>
+<a class="btn btn-default" href="/Product/Index/">Products</a>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -38,4 +41,6 @@
     </table>
 </div>
 
-<a class="btn btn-default" href="/Order/Index/">Sales</a>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
