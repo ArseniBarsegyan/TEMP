@@ -1,19 +1,20 @@
 ﻿@model PagedList.IPagedList<UserStore.BLL.DTO.OrderDto>
 @using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
 }
 
-<a class="btn btn-success" href="/Order/Create/">Create</a>
-<a class="btn btn-default" href="/Admin/Index/">Users</a>
-<a class="btn btn-default" href="/Manager/Index/">Managers</a>
-<a class="btn btn-default" href="/Product/Index/">Products</a>
+<div class="btn btn-group">
+    <a class="btn btn-success" href="/Order/Create/">Create</a>
+    <a class="btn btn-default" href="/Admin/Index/">Users</a>
+    <a class="btn btn-default" href="/Manager/Index/">Managers</a>
+    <a class="btn btn-default" href="/Product/Index/">Products</a>
+</div>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        All sales
+        All orders
     </div>
     <table class="table table-striped">
         <tr>
@@ -22,7 +23,9 @@
             <th>Client name</th>
             <th>Product name</th>
             <th>Order price</th>
-            <th>Purchase date</th>
+            <th>Order date</th>
+            <th></th>
+            <th></th>
         </tr>
         @if (!Model.Any())
         {
@@ -32,17 +35,17 @@
         }
         else
         {
-            foreach (var purchase in Model)
+            foreach (var orderDto in Model)
             {
                 <tr>
-                    <td>@purchase.Id</td>
-                    <td>@purchase.ManagerName</td>
-                    <td>@purchase.ClientName</td>
-                    <td>@purchase.ProductName</td>
-                    <td>@purchase.Price</td>
-                    <td>@purchase.Date</td>
-                    <td><p><a class="btn btn-default" href="/Order/Edit/@purchase.Id">Edit</a></p></td>
-                    <td><p><a class="btn btn-default" href="/Order/Delete/@purchase.Id">Delete</a></p></td>
+                    <td>@orderDto.Id</td>
+                    <td>@orderDto.ManagerName</td>
+                    <td>@orderDto.ClientName</td>
+                    <td>@orderDto.ProductName</td>
+                    <td>@orderDto.Price</td>
+                    <td>@orderDto.Date</td>
+                    <td><p><a class="btn btn-default" href="/Order/Edit/@orderDto.Id">Edit</a></p></td>
+                    <td><p><a class="btn btn-default" href="/Order/Delete/@orderDto.Id">Delete</a></p></td>
                 </tr>
             }
         }

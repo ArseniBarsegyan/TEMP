@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.WebUI.ConstantStorage;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -14,7 +13,6 @@ namespace UserStore.WebUI.Controllers
     public class AdminController : Controller
     {
         private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         public ActionResult Index(int? page)
         {
@@ -22,7 +20,16 @@ namespace UserStore.WebUI.Controllers
             var pageNumber = (page ?? 1);
             return View(UserService.GetAllUsersList().ToPagedList(pageNumber, pageSize));
         }
-        
+
+        [HttpPost]
+        public ActionResult UserSearch(string name)
+        {
+            name = name.ToLower();
+            var users = UserService.GetAllUsersList().Where(x => x.Name.ToLower() == name);
+            ViewBag.Users = users;
+            return PartialView(users);
+        }
+
         public ActionResult Edit(string id)
         {
             var userDto = UserService.GetById(id);

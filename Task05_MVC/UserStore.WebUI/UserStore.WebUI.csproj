@@ -271,6 +271,9 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Home\OrdersSummary.cshtml" />
+    <Content Include="Views\Manager\ManagerSearch.cshtml" />
+    <Content Include="Views\Product\ProductSearch.cshtml" />
+    <Content Include="Views\Admin\UserSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

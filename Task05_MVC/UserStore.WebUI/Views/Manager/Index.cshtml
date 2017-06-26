@@ -5,41 +5,57 @@
     ViewBag.Title = "Index";
 }
 
-<a class="btn btn-success" href="/Manager/Create/">Create</a>
-<a class="btn btn-default" href="/Admin/Index/">Users</a>
-<a class="btn btn-default" href="/Order/Index/">Orders</a>
-<a class="btn btn-default" href="/Product/Index/">Products</a>
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        All sales
-    </div>
-    <table class="table table-striped">
-        <tr>
-            <th>Manager Id</th>
-            <th>Manager name</th>
-        </tr>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="3" class="text-center">There is no purchases</td>
-            </tr>
-        }
-        else
-        {
-            foreach (var manager in Model)
-            {
-                <tr>
-                    <td>@manager.Id</td>
-                    <td>@manager.LastName</td>
-                    <td><p><a class="btn btn-default" href="/Manager/Edit/@manager.Id">Edit</a></p></td>
-                    <td><p><a class="btn btn-default" href="/Manager/Delete/@manager.Id">Delete</a></p></td>
-                </tr>
-            }
-        }
-    </table>
+<div class="btn btn-group">
+    <a class="btn btn-success" href="/Manager/Create/">Create</a>
+    <a class="btn btn-default" href="/Admin/Index/">Users</a>
+    <a class="btn btn-default" href="/Order/Index/">Orders</a>
+    <a class="btn btn-default" href="/Product/Index/">Products</a>
 </div>
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount
+@using (Ajax.BeginForm("ManagerSearch", new AjaxOptions { UpdateTargetId = "results" }))
+{
+    <div class="form-group">
+        <input type="text" name="name" class="form-control" />
+        <input type="submit" class="btn btn-default" value="Search" />
+    </div>
+}
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<div id="results">
+</div>
+
+<div class="panel panel-primary">
+        <div class="panel-heading">
+            All managers
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Manager Id</th>
+                <th>Manager name</th>
+            </tr>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="3" class="text-center">There is no managers</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var manager in Model)
+                {
+                    <tr>
+                        <td>@manager.Id</td>
+                        <td>@manager.LastName</td>
+                        <td><p><a class="btn btn-default" href="/Manager/Edit/@manager.Id">Edit</a></p></td>
+                        <td><p><a class="btn btn-default" href="/Manager/Delete/@manager.Id">Delete</a></p></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

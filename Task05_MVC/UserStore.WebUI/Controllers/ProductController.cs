@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.WebUI.ConstantStorage;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -22,6 +22,15 @@ namespace UserStore.WebUI.Controllers
             var pageNumber = (page ?? 1);
             var allProducts = _productService.GetAllProductsList();
             return View(allProducts.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult ProductSearch(string name)
+        {
+            name = name.ToLower();
+            var products = _productService.GetAllProductsList().Where(x => x.Name.ToLower() == name);
+            ViewBag.Products = products;
+            return PartialView(products);
         }
 
         public ActionResult Create()

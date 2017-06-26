@@ -2,7 +2,6 @@
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.WebUI.ConstantStorage;
 using UserStore.WebUI.Models;
 
 namespace UserStore.WebUI.Controllers

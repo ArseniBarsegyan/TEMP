@@ -1,8 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
-using UserStore.WebUI.ConstantStorage;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -27,6 +27,15 @@ namespace UserStore.WebUI.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult ManagerSearch(string name)
+        {
+            name = name.ToLower();
+            var managers = _managerService.GetAllManagersList().Where(x => x.LastName.ToLower() == name);
+            ViewBag.Managers = managers;
+            return PartialView(managers);
         }
 
         [HttpPost]
