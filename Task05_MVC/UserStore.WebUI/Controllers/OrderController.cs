@@ -1,8 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.WebUI.Models;
+using UserStore.WebUI.Util;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -18,10 +20,19 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult Index(int? page)
         {
-            var pageSize = ConstantStorage.ConstantStorage.pageSize;
+            var pageSize = ConstantStorage.pageSize;
             var pageNumber = (page ?? 1);
             var allOrders = _orderService.GetAllOrderList();
             return View(allOrders.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public ActionResult OrderSearch(string name)
+        {
+            name = name.ToLower();
+            var orders = _orderService.GetAllOrderList().Where(x => x.ManagerName.ToLower() == name);
+            ViewBag.Orders = orders;
+            return PartialView(orders);
         }
 
         public ActionResult Create()

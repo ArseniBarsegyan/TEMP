@@ -194,7 +194,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="ConstantStorage\ConstantStorage.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -211,6 +210,7 @@
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ConstantStorage.cs" />
     <Compile Include="Util\NinjectDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +274,7 @@
     <Content Include="Views\Manager\ManagerSearch.cshtml" />
     <Content Include="Views\Product\ProductSearch.cshtml" />
     <Content Include="Views\Admin\UserSearch.cshtml" />
+    <Content Include="Views\Order\OrderSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

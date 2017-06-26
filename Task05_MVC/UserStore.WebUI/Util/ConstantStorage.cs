@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace UserStore.WebUI.ConstantStorage
+namespace UserStore.WebUI.Util
 {
     public static class ConstantStorage
     {

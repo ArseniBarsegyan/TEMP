@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
+using UserStore.WebUI.Util;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -16,7 +17,7 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult Index(int? page)
         {
-            var pageSize = ConstantStorage.ConstantStorage.pageSize;
+            var pageSize = ConstantStorage.pageSize;
             var pageNumber = (page ?? 1);
             return View(UserService.GetAllUsersList().ToPagedList(pageNumber, pageSize));
         }

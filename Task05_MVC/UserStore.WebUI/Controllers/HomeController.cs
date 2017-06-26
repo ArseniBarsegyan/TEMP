@@ -5,6 +5,7 @@ using PagedList;
 using UserStore.BLL.DTO;
 using UserStore.BLL.Interfaces;
 using UserStore.WebUI.Models;
+using UserStore.WebUI.Util;
 
 namespace UserStore.WebUI.Controllers
 {
@@ -22,31 +23,31 @@ namespace UserStore.WebUI.Controllers
         public ActionResult Index(string manager, string product, string date, decimal? fromValue
             , decimal? toValue, int? page)
         {
-            var pageSize = ConstantStorage.ConstantStorage.pageSize;
-            int pageNumber = (page ?? 1);
+            var pageSize = ConstantStorage.pageSize;
+            var pageNumber = (page ?? 1);
             var orders = _orderService.GetAllOrderList();
 
             var managers = orders.Select(x => x.ManagerName).Distinct().ToList();
-            managers.Insert(0, "All");
+            managers.Insert(0, ConstantStorage.AllRecordsInListValue);
             var products = orders.Select(x => x.ProductName).Distinct().ToList();
-            products.Insert(0, "All");
+            products.Insert(0, ConstantStorage.AllRecordsInListValue);
             var dates = orders.Select(x => x.Date.ToString("d")).Distinct().ToList();
-            dates.Insert(0, "All");
+            dates.Insert(0, ConstantStorage.AllRecordsInListValue);
             
             var prices = orders.Select(x => x.Price).Distinct().ToList();
             prices.Insert(0, 0m);
 
-            if (!string.IsNullOrEmpty(manager) && !manager.Equals(ConstantStorage.ConstantStorage.AllRecordsInListValue))
+            if (!string.IsNullOrEmpty(manager) && !manager.Equals(ConstantStorage.AllRecordsInListValue))
             {
                 orders = orders.Where(x => x.ManagerName == manager);
             }
 
-            if (!string.IsNullOrEmpty(product) && !product.Equals(ConstantStorage.ConstantStorage.AllRecordsInListValue))
+            if (!string.IsNullOrEmpty(product) && !product.Equals(ConstantStorage.AllRecordsInListValue))
             {
                 orders = orders.Where(x => x.ProductName == product);
             }
 
-            if (!string.IsNullOrEmpty(date) && !date.Equals(ConstantStorage.ConstantStorage.AllRecordsInListValue))
+            if (!string.IsNullOrEmpty(date) && !date.Equals(ConstantStorage.AllRecordsInListValue))
             {
                 orders = orders.Where(x => x.Date.ToString("d") == date);
             }
@@ -69,8 +70,8 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult OrdersSummary(IEnumerable<OrderDto> orderDtos, int? page)
         {
-            var pageSize = ConstantStorage.ConstantStorage.pageSize;
-            int pageNumber = (page ?? 1);
+            var pageSize = ConstantStorage.pageSize;
+            var pageNumber = (page ?? 1);
 
             return PartialView(orderDtos.ToPagedList(pageNumber, pageSize));
         }

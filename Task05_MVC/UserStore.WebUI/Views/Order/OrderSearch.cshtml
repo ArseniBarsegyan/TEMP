@@ -1,37 +1,9 @@
-﻿@model PagedList.IPagedList<UserStore.BLL.DTO.OrderDto>
-@using PagedList.Mvc;
+﻿@model IEnumerable<UserStore.BLL.DTO.OrderDto>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<a class="btn btn-success" href="/Order/Create/">Create</a>
-
-@using (Ajax.BeginForm("OrderSearch", new AjaxOptions
-{
-    UpdateTargetId = "results",
-    LoadingElementId = "loading",
-    LoadingElementDuration = 500,
-    Confirm = "Execute AJAX-query?"
-}))
-{
-    <div class="form-group">
-        <label>Manager name</label>
-        <input type="text" name="name" class="form-control"/>
-        <input type="submit" class="btn btn-default" value="Search"/>
-    </div>
-}
-
-<div id="loading" style="display: none; color: red; font-weight: bold">
-    <p>loading...</p>
-</div>
-
-<div id="results">
-</div>
-
+<h2>Results:</h2>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        All orders
+        Founded orders
     </div>
     <table class="table table-striped">
         <tr>
@@ -52,7 +24,7 @@
         }
         else
         {
-            foreach (var orderDto in Model)
+            foreach (var orderDto in ViewBag.Orders)
             {
                 <tr>
                     <td>@orderDto.Id</td>
@@ -68,7 +40,3 @@
         }
     </table>
 </div>
-
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
