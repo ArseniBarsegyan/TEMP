@@ -18,8 +18,9 @@
 @using (Ajax.BeginForm("ManagerSearch", new AjaxOptions { UpdateTargetId = "results" }))
 {
     <div class="form-group">
-        <input type="text" name="name" class="form-control" />
-        <input type="submit" class="btn btn-default" value="Search" />
+        <label>Name</label>
+        <input type="text" name="name" class="form-control"/>
+        <input type="submit" class="btn btn-default" value="Search"/>
     </div>
 }
 
