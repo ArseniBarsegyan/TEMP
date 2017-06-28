@@ -43,7 +43,7 @@ namespace UserStore.WebUI.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Orders", "Home");
                 }
             }
             return View(model);
@@ -52,7 +52,7 @@ namespace UserStore.WebUI.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Orders", "Home");
         }
 
         [AllowAnonymous]
@@ -77,7 +77,7 @@ namespace UserStore.WebUI.Controllers
                 var operationDetails = await UserService.CreateAsync(userDto);
 
                 if (operationDetails.Succedeed)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Orders", "Home");
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);

@@ -20,7 +20,7 @@ namespace UserStore.WebUI.Controllers
             _managerService = managerService;
         }
 
-        public ActionResult Index(string manager, string product, string date, decimal? fromValue
+        public ActionResult Orders(string manager, string product, string date, decimal? fromValue
             , decimal? toValue, int? page)
         {
             var pageSize = ConstantStorage.pageSize;
@@ -97,6 +97,16 @@ namespace UserStore.WebUI.Controllers
                 }
             }
             return Json(managersViewsModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Chart()
+        {
+            return View();
+        }
+
+        public ActionResult Index()
+        {
+            return View();
         }
     }
 }
