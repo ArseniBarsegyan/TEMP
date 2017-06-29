@@ -2,37 +2,53 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = "Users";
 }
 
-<ul class="nav nav-pills">
-    <li role="presentation" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Navigate to<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
+<head>
+    <style>
+        input[type=text] {
+            width: 150px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            background-image: url('../../Images/searchicon.png');
+            background-position: 2px 2px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+        
+        input[type=text]:focus {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<div class="row">
+    <div class="col-md-8">
+        <ul class="nav nav-pills nav-justified">
             <li role="presentation"><a href="/Manager/Index">Managers</a></li>
             <li role="presentation"><a href="/Order/Index">Orders</a></li>
             <li role="presentation"><a href="/Product/Index">Products</a></li>
         </ul>
-    </li>
-</ul>
-
-@using (Ajax.BeginForm("UserSearch", new AjaxOptions
-{
-    UpdateTargetId = "results",
-    LoadingElementId = "loading",
-    LoadingElementDuration = 500,
-    Confirm = "Execute AJAX-query?"
-}))
-{
-    <div class="form-inline">
-        <input type="text" placeholder="User name" name="name" class="form-control" />
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="submit">Search!</button>
-        </span>
     </div>
-}
+    <div class="col-md-4">
+        @using (Ajax.BeginForm("UserSearch", new AjaxOptions
+        {
+            UpdateTargetId = "results",
+            LoadingElementId = "loading",
+            LoadingElementDuration = 500,
+        }))
+        {
+            <div class="form-inline">
+                <input type="text" placeholder="User name" name="name" class="form-control" />
+            </div>
+        }
+    </div>
+</div>
 
 <div id="loading" style="display: none; color: red; font-weight: bold">
     <p>loading...</p>
@@ -76,5 +92,4 @@
 </div>
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount
-
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
