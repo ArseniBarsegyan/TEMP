@@ -221,7 +221,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\Chart.png" />
     <Content Include="Images\Charts.png" />
     <Content Include="Images\InfoIcon.png" />
     <Content Include="Images\OrdersIcon.png" />
