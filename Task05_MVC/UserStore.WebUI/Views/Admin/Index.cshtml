@@ -5,6 +5,19 @@
     ViewBag.Title = "Orders";
 }
 
+<ul class="nav nav-pills">
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Navigate to<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li role="presentation"><a href="/Manager/Index">Managers</a></li>
+            <li role="presentation"><a href="/Order/Index">Orders</a></li>
+            <li role="presentation"><a href="/Product/Index">Products</a></li>
+        </ul>
+    </li>
+</ul>
+
 @using (Ajax.BeginForm("UserSearch", new AjaxOptions
 {
     UpdateTargetId = "results",
@@ -13,9 +26,11 @@
     Confirm = "Execute AJAX-query?"
 }))
 {
-    <div class="form-group">
-        <input type="text" placeholder="User name" name="name" class="form-control"/>
-        <input type="submit" class="btn btn-default" value="Search"/>
+    <div class="form-inline">
+        <input type="text" placeholder="User name" name="name" class="form-control" />
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Search!</button>
+        </span>
     </div>
 }
 
