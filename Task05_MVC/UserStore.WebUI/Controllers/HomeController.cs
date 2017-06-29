@@ -20,6 +20,16 @@ namespace UserStore.WebUI.Controllers
             _managerService = managerService;
         }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult Chart()
+        {
+            return View();
+        }
+
         public ActionResult Orders(string manager, string product, string date, decimal? fromValue
             , decimal? toValue, int? page)
         {
@@ -97,16 +107,6 @@ namespace UserStore.WebUI.Controllers
                 }
             }
             return Json(managersViewsModels, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Chart()
-        {
-            return View();
-        }
-
-        public ActionResult Index()
-        {
-            return View();
         }
     }
 }
