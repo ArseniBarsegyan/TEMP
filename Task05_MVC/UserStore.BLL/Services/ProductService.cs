@@ -73,14 +73,14 @@ namespace UserStore.BLL.Services
 
         public OperationDetails Delete(int id)
         {
-            var product = UnitOfWork.ProductRepository.GetById(id);
-            var order = UnitOfWork.OrderRepository.GetAll()
-                .Include(x => x.Product)
-                .FirstOrDefault(x => x.Product.Id == product.Id);
-            if (order != null)
-            {
-                UnitOfWork.OrderRepository.Delete(order.Id);
-            }
+            //var product = UnitOfWork.ProductRepository.GetAll().FirstOrDefault(x => x.Id == id);
+            //var order = UnitOfWork.OrderRepository.GetAll()
+            //    .Include(x => x.Product)
+            //    .FirstOrDefault(x => x.Product.Id == id);
+            //if (order != null)
+            //{
+            //    UnitOfWork.OrderRepository.Delete(order.Id);
+            //}
             UnitOfWork.ProductRepository.Delete(id);
             UnitOfWork.Save();
 
