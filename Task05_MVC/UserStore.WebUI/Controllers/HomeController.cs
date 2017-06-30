@@ -112,8 +112,9 @@ namespace UserStore.WebUI.Controllers
 
         public ActionResult GetYearsData()
         {
-            var dictionary = new Dictionary<int, OrderChartViewModel>();
+            var years = new List<OrderChartViewModel>();
             var orderChartViewModel = new OrderChartViewModel();
+
             var ordersGroupByMonth = _orderService.GetAllOrderList()
                 .GroupBy(x => x.Date.Year)
                 .OrderByDescending(x => x.Key);
@@ -124,14 +125,12 @@ namespace UserStore.WebUI.Controllers
                 {
                     orderChartViewModel.TotalPrice += item.Price;
                     orderChartViewModel.OrdersCount++;
+                    orderChartViewModel.Year = item.Date.Year;
                 }
-                if (!dictionary.ContainsKey(group.Key))
-                {
-                    dictionary.Add(group.Key, orderChartViewModel);
-                }
+                years.Add(orderChartViewModel);
                 orderChartViewModel = new OrderChartViewModel();
             }
-            return Json(dictionary, JsonRequestBehavior.AllowGet);
+            return Json(years, JsonRequestBehavior.AllowGet);
         }
     }
 }
