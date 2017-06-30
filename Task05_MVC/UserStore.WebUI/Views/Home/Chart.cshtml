@@ -21,27 +21,63 @@
                 var obj = [response[i].Name, response[i].OrdersCount];
                 objs.push(obj);
             }
-
             var data = google.visualization.arrayToDataTable(objs);
 
             var options = {
                 chart: {
-                    title: 'Orders details',
-                    subtitle: 'Orders amount, Total price'
+                    title: 'Order details',
+                    subtitle: 'Orders amount',
                 }
             };
 
-            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
+            var chart = new google.charts.Bar(document.getElementById('piechart_3d'));
             chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+
+    </script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+
+        function onDrawPieButtonClick() {
+            var actionUrl = '@Url.Action("GetManagersData", "Home")';
+            $.getJSON(actionUrl, drawPieChart);
+        }
+
+        function drawPieChart(response) {
+            var objs = [];
+            objs.push(['Manager', 'Orders count']);
+
+            for (var i = 0; i < response.length; i++) {
+                var obj = [response[i].Name, response[i].OrdersCount];
+                objs.push(obj);
+            }
+
+            var data = google.visualization.arrayToDataTable(objs);
+
+            var options = {
+                title: 'Managers orders count',
+                is3D: true
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chart.draw(data, options);
         }
     </script>
 </head>
 
 <body>
-    <div>
-        <button type="button" class="btn btn-primary" onclick="onDrawBarButtonClick()">Draw bar</button>
+<div class="row">
+    <div class="col-md-3">
+        <div>
+            <button type="button" class="btn btn-primary" onclick="onDrawPieButtonClick()">Managers orders</button>
+        </div>
     </div>
-    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+    <div class="col-md-3">
+        <div>
+            <button type="button" class="btn btn-primary" onclick="onDrawBarButtonClick()">Year stats</button>
+        </div>
+    </div>
+</div>
+<div id="piechart_3d" style="width: 800px; height: 500px;"></div>
 </body>
 
