@@ -9,24 +9,24 @@
         google.charts.load('current', { 'packages': ['bar'] });
 
         function onDrawBarButtonClick() {
-            var actionUrl = '@Url.Action("GetYearsData", "Home")';
+            var actionUrl = '@Url.Action("GetTotalPrices", "Home")';
             $.getJSON(actionUrl, drawBarChart);
         }
 
         function drawBarChart(response) {
             var objs = [];
-            objs.push(['Year', 'Orders count', 'Total price']);
+            objs.push(['Manager', 'Total price']);
 
             for (var i = 0; i < response.length; i++) {
-                var obj = [response[i].Year, response[i].OrdersCount, response[i].TotalPrice];
+                var obj = [response[i].ManagerName, response[i].TotalPrice];
                 objs.push(obj);
             }
             var data = google.visualization.arrayToDataTable(objs);
 
             var options = {
                 chart: {
-                    title: 'Orders by years',
-                    subtitle: 'Orders amount and total price'
+                    title: 'Orders details',
+                    subtitle: 'Orders total prices'
                 }
             };
 
@@ -67,15 +67,9 @@
 
 <body>
 <div class="row">
-    <div class="col-md-3">
-        <div>
-            <button type="button" class="btn btn-primary" onclick="onDrawPieButtonClick()">Managers orders</button>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div>
-            <button type="button" class="btn btn-primary" onclick="onDrawBarButtonClick()">Year stats</button>
-        </div>
+    <div>
+        <button type="button" class="btn btn-primary" onclick="onDrawPieButtonClick()">Orders amount</button>
+        <button type="button" class="btn btn-primary" onclick="onDrawBarButtonClick()">Total prices</button>
     </div>
 </div>
 <div id="piechart_3d" style="width: 800px; height: 500px;"></div>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using PagedList;
@@ -110,27 +109,25 @@ namespace UserStore.WebUI.Controllers
             return Json(managersViewsModels, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetYearsData()
+        public ActionResult GetTotalPrices()
         {
-            var years = new List<OrderChartViewModel>();
-            var orderChartViewModel = new OrderChartViewModel();
+            var data = new List<BarChartViewModel>();
+            var orderChartViewModel = new BarChartViewModel();
 
             var ordersGroupByMonth = _orderService.GetAllOrderList()
-                .GroupBy(x => x.Date.Year)
-                .OrderByDescending(x => x.Key);
+                .GroupBy(x => x.ManagerName);
 
             foreach (var group in ordersGroupByMonth)
             {
                 foreach (var item in group)
                 {
                     orderChartViewModel.TotalPrice += item.Price;
-                    orderChartViewModel.OrdersCount++;
-                    orderChartViewModel.Year = item.Date.Year;
                 }
-                years.Add(orderChartViewModel);
-                orderChartViewModel = new OrderChartViewModel();
+                orderChartViewModel.ManagerName = group.Key;
+                data.Add(orderChartViewModel);
+                orderChartViewModel = new BarChartViewModel();
             }
-            return Json(years, JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
