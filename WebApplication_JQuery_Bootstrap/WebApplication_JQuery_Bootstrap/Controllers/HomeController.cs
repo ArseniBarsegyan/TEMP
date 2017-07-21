@@ -15,8 +15,6 @@ namespace WebApplication_JQuery_Bootstrap.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
