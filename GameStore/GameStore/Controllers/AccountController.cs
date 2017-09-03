@@ -95,7 +95,7 @@ namespace GameStore.Controllers
                         {
                             IsPersistent = true
                         }, claim);
-                        if (String.IsNullOrEmpty(returnUrl))
+                        if (string.IsNullOrEmpty(returnUrl))
                             return RedirectToAction("Index", "Home");
                         return Redirect(returnUrl);
                     }
