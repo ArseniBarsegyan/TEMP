@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMembershipApp", "SimpleMembershipApp\SimpleMembershipApp.csproj", "{6E108DCF-C5FA-4C01-9072-4C9FECAE57B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBox.DAL", "CloudBox.DAL\CloudBox.DAL.csproj", "{90A071D2-B3DB-4E28-8F2E-AD5EE6BB9905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRepository", "TestRepository\TestRepository.csproj", "{B9CCC9C5-92AF-45FF-B803-10DE699672D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6E108DCF-C5FA-4C01-9072-4C9FECAE57B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E108DCF-C5FA-4C01-9072-4C9FECAE57B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E108DCF-C5FA-4C01-9072-4C9FECAE57B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90A071D2-B3DB-4E28-8F2E-AD5EE6BB9905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A071D2-B3DB-4E28-8F2E-AD5EE6BB9905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A071D2-B3DB-4E28-8F2E-AD5EE6BB9905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A071D2-B3DB-4E28-8F2E-AD5EE6BB9905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9CCC9C5-92AF-45FF-B803-10DE699672D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9CCC9C5-92AF-45FF-B803-10DE699672D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9CCC9C5-92AF-45FF-B803-10DE699672D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9CCC9C5-92AF-45FF-B803-10DE699672D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
