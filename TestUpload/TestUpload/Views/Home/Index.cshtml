@@ -4,8 +4,34 @@
 
 <div>
     <h2>Directories</h2>
-    @foreach (var directory in ViewBag.Directories)
-    {
-        <div>@directory.ToString()</div>
-    }
+    <div id="currentPath">@ViewBag.CurrentPath</div>
+    <button id="linkToPrevPath" class="btn btn-default">...</button>
+    <table class="table-hover" id="resultTable">
+        <tr>
+            <th>Some functions</th>
+        </tr>
+        @foreach (var directory in ViewBag.Directories)
+        {
+            <tr>
+                <td id="@directory" onclick="appendFolderNameToFullPath(@directory)">@directory</td>
+            </tr>
+
+        }
+        @foreach (var file in ViewBag.Files)
+        {
+            <tr>
+                <td><a href="~/Files/SuperMan/@file">@file</a></td>
+            </tr>
+        }
+    </table>
 </div>
+
+<script type="text/javascript">
+    function appendFolderNameToFullPath(name) {
+        $("#currentPath").append(name);
+        $.ajax({
+            url: "@Url.Action("Index", "Home")",
+
+        });
+    }
+</script>
