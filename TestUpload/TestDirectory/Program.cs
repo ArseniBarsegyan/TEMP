@@ -11,12 +11,11 @@ namespace TestDirectory
     {
         static void Main(string[] args)
         {
-            string[] subdirectoryEntries = Directory.GetDirectories(@"D:\1");
-            foreach (string directoryFullName in subdirectoryEntries)
-            {
-                string directoryName = new FileInfo(directoryFullName).Name;
-                Console.WriteLine(directoryName);
-            }
+            var name = "as:asd";
+            var el1 = name.Split(':')[0];
+            var el2 = name.Split(':')[1];
+            Console.WriteLine(el1);
+            Console.WriteLine(el2);
         }
     }
 }
