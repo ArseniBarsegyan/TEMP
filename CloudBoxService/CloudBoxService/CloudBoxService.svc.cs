@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using MySql.Data.MySqlClient;
 using MySql.Web.Security;
 using WebMatrix.WebData;
@@ -37,6 +38,11 @@ namespace CloudBoxService
                 }
                 return password;
             }
+        }
+
+        public bool UploadFilesToServer(IEnumerable<byte[]> filesCollection)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
