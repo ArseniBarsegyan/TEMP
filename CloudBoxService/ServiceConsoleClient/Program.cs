@@ -9,9 +9,8 @@ namespace ServiceConsoleClient
         {
             using (CloudBoxServiceClient client = new CloudBoxServiceClient())
             {
-                Console.WriteLine("Password from DB:");
-                string password = client.GetPasswordFromDb();
-                Console.WriteLine(password);
+                bool result = client.ValidatePassword("123");
+                Console.WriteLine(result);
             }
             Console.ReadLine();
         }

@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using MySql.Data.MySqlClient;
+using MySql.Web.Security;
 using WebMatrix.WebData;
 
 namespace CloudBoxService
@@ -13,7 +14,10 @@ namespace CloudBoxService
 
         public bool ValidatePassword(string password)
         {
-            return WebSecurity.Login("luke_lp@mail.ru", "luke465", false);
+            //WebSecurity.InitializeDatabaseConnection("MyConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            MySqlSimpleMembershipProvider provider1 = new MySqlSimpleMembershipProvider();
+           
+            return WebSecurity.Login("luke_lp@mail.ru", "luke465");
         }
 
         public string GetPasswordFromDb()
