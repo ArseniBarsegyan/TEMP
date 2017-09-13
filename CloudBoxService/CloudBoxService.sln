@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBoxService", "CloudBoxService\CloudBoxService.csproj", "{CBA82C6D-ABB7-4DE4-805E-7098E57878F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBoxServiceHost", "CloudBoxServiceHost\CloudBoxServiceHost.csproj", "{A5D34EA3-D0B4-4545-B236-24984A63BF47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceConsoleClient", "ServiceConsoleClient\ServiceConsoleClient.csproj", "{DCFF8D8E-43E2-435E-9CC5-C0BB06969A61}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBA82C6D-ABB7-4DE4-805E-7098E57878F7} = {CBA82C6D-ABB7-4DE4-805E-7098E57878F7}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBA82C6D-ABB7-4DE4-805E-7098E57878F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA82C6D-ABB7-4DE4-805E-7098E57878F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA82C6D-ABB7-4DE4-805E-7098E57878F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA82C6D-ABB7-4DE4-805E-7098E57878F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D34EA3-D0B4-4545-B236-24984A63BF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D34EA3-D0B4-4545-B236-24984A63BF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D34EA3-D0B4-4545-B236-24984A63BF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D34EA3-D0B4-4545-B236-24984A63BF47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCFF8D8E-43E2-435E-9CC5-C0BB06969A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCFF8D8E-43E2-435E-9CC5-C0BB06969A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCFF8D8E-43E2-435E-9CC5-C0BB06969A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCFF8D8E-43E2-435E-9CC5-C0BB06969A61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
