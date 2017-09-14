@@ -7,13 +7,7 @@ namespace CloudBoxService
     public interface ICloudBoxService
     {
         [OperationContract]
-        string GetData(int value);
-
-        [OperationContract]
-        bool ValidatePassword(string password);
-
-        [OperationContract]
-        string GetPasswordFromDb();
+        bool ValidateUser(string username, string password);
 
         [OperationContract]
         bool UploadFilesToServer(IEnumerable<byte[]> filesCollection);
