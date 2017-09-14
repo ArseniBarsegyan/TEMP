@@ -10,6 +10,6 @@ namespace CloudBoxService
         bool ValidateUser(string username, string password);
 
         [OperationContract]
-        bool UploadFilesToServer(IEnumerable<byte[]> filesCollection);
+        bool UploadFilesToServer(string userName, IEnumerable<byte[]> filesCollection);
     }
 }

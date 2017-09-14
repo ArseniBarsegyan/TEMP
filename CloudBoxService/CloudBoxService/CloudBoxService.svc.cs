@@ -8,12 +8,12 @@ namespace CloudBoxService
     {
         public bool ValidateUser(string username, string password)
         {
-            MySqlSimpleMembershipProvider provider1 = new MySqlSimpleMembershipProvider();
+            MySqlSimpleMembershipProvider provider = new MySqlSimpleMembershipProvider();
            
             return WebSecurity.Login(username, password);
         }
 
-        public bool UploadFilesToServer(IEnumerable<byte[]> filesCollection)
+        public bool UploadFilesToServer(string userName, IEnumerable<byte[]> filesCollection)
         {
             throw new System.NotImplementedException();
         }
