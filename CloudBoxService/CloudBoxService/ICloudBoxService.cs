@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 namespace CloudBoxService
 {
@@ -10,6 +9,9 @@ namespace CloudBoxService
         bool ValidateUser(string username, string password);
 
         [OperationContract]
-        bool UploadFilesToServer(string userName, IEnumerable<byte[]> filesCollection);
+        bool UploadFilesToServer(string userName, string userPassword, byte[] fileContent);
+
+        [OperationContract]
+        bool CreateFolder(string userName, string userPassword, string folderName);
     }
 }

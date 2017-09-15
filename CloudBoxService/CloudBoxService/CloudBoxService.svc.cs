@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using MySql.Web.Security;
 using WebMatrix.WebData;
 
@@ -13,9 +14,24 @@ namespace CloudBoxService
             return WebSecurity.Login(username, password);
         }
 
-        public bool UploadFilesToServer(string userName, IEnumerable<byte[]> filesCollection)
+        public bool UploadFilesToServer(string userName, string password, byte[] fileContent)
         {
-            throw new System.NotImplementedException();
+            MySqlSimpleMembershipProvider provider = new MySqlSimpleMembershipProvider();
+
+            var loginResult = WebSecurity.Login(userName, password);
+            var accountsDirectory = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts";
+            if (!Directory.Exists(accountsDirectory))
+            {
+                if (WebSecurity.Login(userName, password))
+                {
+                    var userDirectory = accountsDirectory + @"\" + userName;
+                    if (!Directory.Exists(userDirectory))
+                    {
+                        Directory.CreateDirectory(userDirectory);
+                    }
+                }
+            }
+            return true;
         }
     }
 }
