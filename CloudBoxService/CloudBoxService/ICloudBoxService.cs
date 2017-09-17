@@ -1,4 +1,6 @@
 ﻿using System.ServiceModel;
+using System.Collections.Generic;
+using System.Web;
 
 namespace CloudBoxService
 {
@@ -9,9 +11,27 @@ namespace CloudBoxService
         bool ValidateUser(string username, string password);
 
         [OperationContract]
-        bool UploadFilesToServer(string userName, string userPassword, byte[] fileContent);
+        IEnumerable<string> GetAllDirectoriesByPath(string userName, string path);
 
         [OperationContract]
-        bool CreateFolder(string userName, string userPassword, string folderName);
+        IEnumerable<string> GetAllFilesByPath(string userName, string path);
+
+        [OperationContract]
+        void CheckIfDirectoryWithUserNameExists(string username);
+
+        [OperationContract]
+        bool UploadFilesToServer(string userName, string password, byte[] fileContent);
+
+        [OperationContract]
+        string CreateFolderIfNotExists(string path);
+
+        [OperationContract]
+        void RemoveElement(string path);
+
+        [OperationContract]
+        string Upload(byte[] file, string path);
+
+        [OperationContract]
+        string GetFileLink(string path);
     }
 }
