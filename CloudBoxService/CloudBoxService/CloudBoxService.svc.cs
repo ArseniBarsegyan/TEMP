@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using MySql.Web.Security;
 using WebMatrix.WebData;
-using System.Web;
 
 namespace CloudBoxService
 {
@@ -75,9 +74,9 @@ namespace CloudBoxService
         public void RemoveElement(string path)
         {
             string fullPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts\" + path;
-            if (System.IO.File.Exists(fullPath))
+            if (File.Exists(fullPath))
             {
-                System.IO.File.Delete(fullPath);
+                File.Delete(fullPath);
             }
             else if (Directory.Exists(fullPath))
             {
