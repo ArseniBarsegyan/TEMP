@@ -73,7 +73,7 @@ namespace CloudBoxService
         //Remove file or directory(directory delete is recursive)
         public void RemoveElement(string path)
         {
-            string fullPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts\" + path;
+            var fullPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts\" + path;
             if (File.Exists(fullPath))
             {
                 File.Delete(fullPath);
@@ -86,7 +86,7 @@ namespace CloudBoxService
 
         public string CreateFolderIfNotExists(string path)
         {
-            string fullPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts\" + path;
+            var fullPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Accounts\" + path;
             if (Directory.Exists(fullPath))
             {
                 return "Folder already exists";
