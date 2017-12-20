@@ -1,71 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tree
 {
     class Program
     {
-        private static List<Category> _categories = new List<Category>();
-
         static void Main(string[] args)
         {
-            //Creatin root category and put in into storage
-            var rootCategory = CreateRootCategory();
-            _categories.Add(rootCategory);
-
-            //Start creating categories until user enter 'exit'
-            AddCategory(rootCategory);
-            //Start counting prices of all categories
-            AddWeightOrRate();
-        }
-
-        private static void AddCategory(Category parentCategory)
-        {
-            //Request category name
-            Console.WriteLine("Enter category name or exit to stop");
-            var name = Console.ReadLine();
-
-            //if enter exit break loop
-            if (name != null && !name.Equals("exit"))
-            {
-                var category = new Category
-                {
-                    Name = name,
-                    Parent = parentCategory
-                };
-                _categories.Add(category);
-                AddCategory(category);
-            }
-            //If loop ended then proceed with rate for current category
-            //so call rate method here
+            //Create item
+            var item = CreateItem();
+            //adding first generation of categories to item
+            AddFirstCategories(item);
         }
         
-        private static void AddWeightOrRate(Category category)
+        //Provides list of first-level categories
+        private static void AddFirstCategories(Item item)
         {
-            Console.WriteLine("Chosee 1-Add Weight or 2-Add Rate");
-            var entry = Console.ReadLine();
-
-            if (entry == "1")
+            //Request category name
+            var firstGeneration = new List<Category>();
+            Console.WriteLine($"Enter category name for {item.Name} or 'ok' for next step");
+            
+            var name = Console.ReadLine();
+            while (!name.Equals("ok"))
             {
-                var totalWeight = 100;
+                firstGeneration.Add(new Category
+                {
+                    Name = name,
+                    Parent = null,
+                });
+                name = Console.ReadLine();
             }
-            else if (entry == "2")
+            item.Categories = firstGeneration;
+        }
+
+        private static void AddCategories(List<Category> categories)
+        {
+            var list = new List<Category>();
+
+            foreach (var cat in categories)
             {
+                Console.WriteLine("Enter 1-Add Weight or 2-Add Rate or 3-Add subcategory to current category");
+                var answer = Console.ReadLine();
+                if (answer.Equals("1") || answer.Equals("2"))
+                    RateAllCategories(categories);
+                var category = new Category
+                {
+                    Name = Console.ReadLine(),
+                    Parent = cat,
+                };
+                list.Add(category);
             }
         }
 
-        private static Category CreateRootCategory()
+        private static void RateAllCategories(List<Category> categories)
         {
-            Console.WriteLine("Enter item");
+            foreach (var category in categories)
+            {
+                AddWeightToCategory(category);
+            }
+        }
+
+        //Count weight and rate of category
+        private static void AddWeightToCategory(Category category)
+        {
+            Console.WriteLine("Add weight to category between 1 and 100");
+            var weight = int.Parse(Console.ReadLine());
+            category.Weight = weight;
+
+            Console.WriteLine("Add rate to category between 1 and 10");
+            var rate = int.Parse(Console.ReadLine());
+            category.Rate = rate;
+        }
+
+        //Creating root item for rate
+        private static Item CreateItem()
+        {
+            Console.WriteLine("Enter item name");
             var name = Console.ReadLine();
-            return new Category
+
+            return new Item
             {
                 Name = name,
-                Parent = null,
-                Rate = 0
+                Categories = new List<Category>()
             };
         }
     }
