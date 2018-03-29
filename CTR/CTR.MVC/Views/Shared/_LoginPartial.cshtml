@@ -1,0 +1,29 @@
+﻿@using CTR.DAL.Identity
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a asp-area="" asp-controller="Activity" asp-action="Index" title="Activities">
+                    Hello @UserManager.GetUserName(User) <span class="caret"></span>!
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a asp-controller="Activity" asp-action="Index">Profile</a></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="" asp-controller="Account" asp-action="Register" id="registerLink">SignUp</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login" id="loginLink">SignIn</a></li>
+    </ul>
+}

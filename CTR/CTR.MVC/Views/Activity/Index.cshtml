@@ -1,0 +1,39 @@
+﻿@model List<ActivityViewModel>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-with-padding">
+    <a asp-controller="Activity" asp-action="Create" class="btn btn-activity center-block">+</a>
+    <table id="activitiesTable" class="table table-hover table-responsive">
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Duration</th>
+            <th>Description</th>
+        </tr>
+        @{
+            foreach (var activity in Model)
+            {
+                <tr onclick="viewActivity(@activity.Id)">
+                    <td>@activity.Date.ToString("dd.MM.yyyy")</td>
+                    <td>@activity.Type</td>
+                    <td>@activity.Duration</td>
+                    <td>@activity.Description</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $("#activitiesTable").css("cursor", "pointer");
+
+        function viewActivity(itemId) {
+            var url = "/Activity/Update/" + itemId;
+            window.location.href = url;
+        }
+    </script>
+}

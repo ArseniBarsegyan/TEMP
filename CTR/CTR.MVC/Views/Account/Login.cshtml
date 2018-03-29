@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">x</button>
+        <h4>Log in</h4>
+    </div>
+    <div class="modal-body">
+        <form method="post" asp-controller="Account" asp-action="Login"
+              asp-route-returnUrl="@Model.ReturnUrl">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" asp-for="RememberMe">&nbsp;Remeber me</label>
+            </div>
+            <div>
+                Don't have account? <a asp-controller="Account" asp-action="Register">Register</a>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="SignIn" />
+            </div>
+        </form>
+    </div>
+</div>
