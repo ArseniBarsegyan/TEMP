@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +19,14 @@ namespace IdentityServerMVCClient
         {
             services.AddMvc();
 
+            //Admin role can access both admin as well as editor resources
+            //Editor role can access only ediotr resources, admin resources are not available for editor
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("All", policy => policy.RequireRole("admin", "editor"));
+                options.AddPolicy("Admin", policy => policy.RequireRole("admin"));
+            });
+
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -38,6 +42,7 @@ namespace IdentityServerMVCClient
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "mvc";
+                    options.Scope.Add("roles");
                     options.SaveTokens = true;
                 });
         }
