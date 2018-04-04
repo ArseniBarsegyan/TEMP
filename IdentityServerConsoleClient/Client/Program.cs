@@ -23,7 +23,7 @@ namespace Client
 
             //Get the token
             var tokenClient = new TokenClient(identityServer.TokenEndpoint, "Client1", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("ars", "pass", "api1");
 
             //Call the API
             HttpClient client = new HttpClient();

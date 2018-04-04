@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace IdentityServer
 {
@@ -13,7 +14,7 @@ namespace IdentityServer
                 new Client
                 {
                     ClientId = "Client1",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets =
                     {
                         new Secret("secret".Sha256())
@@ -32,6 +33,22 @@ namespace IdentityServer
                 new ApiResource("api1", "First API")
             };
             return apiResources;
+        }
+
+        //Defining the InMemory User's
+        public static List<TestUser> GetUsers()
+        {
+            List<TestUser> testUsers = new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "ars",
+                    Password = "pass"
+                }
+            };
+
+            return testUsers;
         }
     }
 }
